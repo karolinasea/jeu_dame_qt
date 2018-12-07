@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>pawn.png</file>
+        <file>pawn1.png</file>
+    </qresource>
+</RCC>
