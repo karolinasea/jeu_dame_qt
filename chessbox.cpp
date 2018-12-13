@@ -1,9 +1,9 @@
 #include "chessbox.hpp"
-#include "game.hpp"
 #include <QDebug>
+#include "game.hpp"
 
-extern Game *game;
-ChessBox::ChessBox(int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),taille(taille)
+//extern Game *game;
+ChessBox::ChessBox(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g), taille(taille)
 {
     //making the Square CHess Box
     setRect(0,0,taille,taille);

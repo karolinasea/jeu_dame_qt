@@ -43,7 +43,7 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)
 
 void Game::displayDeadWhite()
 {
-    int SHIFT = 50;
+    int SHIFT=70;
     int j = 0;
     int k = 0;                 // Qlist.size quel type ça renvoie
     for(unsigned int i = 0,n = whiteDead.size(); i<n; i++) {

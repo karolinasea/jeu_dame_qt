@@ -5,17 +5,19 @@
 #include <QBrush>
 #include <QGraphicsSceneMouseEvent>
 
+
 #include "enumCouleur.hpp"
 #include "chesspiece.hpp"
 
 
 class ChessPiece;
+class Game;
 class ChessBox:public QGraphicsRectItem
 {
 public:
 
     //Constructor
-    ChessBox(int taille, QGraphicsItem *parent=nullptr);
+    ChessBox(Game *g, int taille, QGraphicsItem *parent=nullptr);
     ~ChessBox();
 
 
@@ -42,6 +44,7 @@ public:
     ChessPiece * currentPiece;
 
 private:
+    Game *game;
     int taille;
     QBrush brush;
     QColor originalColor;

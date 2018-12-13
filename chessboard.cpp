@@ -22,13 +22,13 @@ void ChessBoard::drawBoxes(int x,int y)
     for(int i = 0; i < param; i++) {
         for(int j = 0; j < param; j++)
         {
-            ChessBox *box = new ChessBox(shift);
+            ChessBox *box = new ChessBox(game, shift);
             game->collection[i*12+j] = box;
             box->rowLoc = i;
             box->colLoc = j;
             box->setPos(x+shift*j,y+shift*i);
             if((i+j)%2==0)
-                box->setOriginalColor(Qt::lightGray);
+                box->setOriginalColor(Qt::white);
             else
                 box->setOriginalColor(Qt::darkGray);
             game->addToScene(box);
