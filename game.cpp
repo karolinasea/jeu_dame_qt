@@ -57,7 +57,7 @@ void Game::displayDeadWhite()
 
 void Game::displayDeadBlack()
 {
-    int SHIFT = 50;
+    int SHIFT = 70;
     int j = 0;
     int k = 0;
     for(size_t i = 0,n = blackDead.size(); i<n; i++) {
@@ -69,7 +69,7 @@ void Game::displayDeadBlack()
     }
 }
 
-void Game::placeInDeadPlace(ChessPiece *piece)
+void Game::placeInDeadPlace(Pion *piece)
 {
     if(piece->getSide() == Couleur::Blanc) {
         whiteDead.append(piece);
@@ -139,8 +139,8 @@ void Game::start(int param)
         drawDeadHolder(0,0,Qt::lightGray);
         drawDeadHolder(1100,0,Qt::lightGray);
 
-        chess = new damier(this, param);
-        chess->drawBoxes(width()/2-400,50);
+        chess = new Damier(this, param);
+        chess->drawBoites(width()/2-400,50);
 
     addToScene(turnDisplay);
     QGraphicsTextItem* whitePiece = new QGraphicsTextItem();
@@ -159,7 +159,7 @@ void Game::start(int param)
     blackPiece->setPlainText("BLACK PIECE");
     addToScene(blackPiece);
     addToScene(check);
-    chess->addChessPiece();
+    chess->addPion();
 }
 
 void Game::drawDeadHolder(int x, int y,QColor color)
@@ -177,23 +177,23 @@ void Game::displaySizeMenu()
     removeFromScene(playbouton);
     removeFromScene(playComputerbouton);
 
-    size8 = new bouton("64 cases 8x8");
+    size8 = new Bouton("64 cases 8x8");
     int pxPos = width()/2 - size8->boundingRect().width()/2;
     size8->setPos(pxPos,300);    
     addToScene(size8);
 
-    size10 = new bouton("100 cases 10x10");
+    size10 = new Bouton("100 cases 10x10");
     size10->setPos(pxPos,400);
     addToScene(size10);
 
-    size12 = new bouton("144 cases 12x12");
+    size12 = new Bouton("144 cases 12x12");
     size12->setPos(pxPos,500);
     addToScene(size12);
 
 
-    connect(size8,  &bouton::clicked, this, [this]{ start(8); });
-    connect(size10,  &bouton::clicked, this, [this]{ start(10); });
-    connect(size12, &bouton::clicked, this, [this]{ start(12); });
+    connect(size8,  &Bouton::clicked, this, [this]{ start(8); });
+    connect(size10,  &Bouton::clicked, this, [this]{ start(10); });
+    connect(size12, &Bouton::clicked, this, [this]{ start(12); });
 
 
 }
@@ -223,7 +223,7 @@ void Game::displayMainMenu()
     listG.append(titleText);*/
 
     //create bouton
-    playbouton = new bouton("Play 2 v 2");
+    playbouton = new Bouton("Play 2 v 2");
     int pxPos = width()/2 - playbouton->boundingRect().width()/2;
     int pyPos = 300;
     playbouton->setPos(pxPos,pyPos);
@@ -231,7 +231,7 @@ void Game::displayMainMenu()
     addToScene(playbouton);
 
 
-    playComputerbouton = new bouton("Play vs Computer");
+    playComputerbouton = new Bouton("Play vs Computer");
     int qxPos = width()/2 - playComputerbouton->boundingRect().width()/2;
     int qyPos = 375;
     playComputerbouton->setPos(qxPos,qyPos);

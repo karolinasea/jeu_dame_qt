@@ -5,8 +5,8 @@
 #include <QSignalMapper>
 #include "damier.hpp"
 #include "bouton.hpp"
-//#include "chesspiece.hpp"
-class damier;
+#include "pion.hpp"
+class Damier;
 class Game:public QGraphicsView
 {
     Q_OBJECT
@@ -18,25 +18,23 @@ public:
     void drawDeadHolder(int x, int y, QColor color);
     void displayDeadWhite();
     void displayDeadBlack();
-    void placeInDeadPlace(ChessPiece *piece);
+    void placeInDeadPlace(Pion *piece);
 
     //Scene Related
     void addToScene(QGraphicsItem *item);
     void removeFromScene(QGraphicsItem *item);
 
     //getters/setters
-    ChessPiece *pieceToMove;
+    Pion *pieceToMove;
 
     Couleur getTurn() ;
     void setTurn( Couleur value);
     void changeTurn();
 
-
-
-    boite *collection[144];
+    Boite *collection[144];
     QGraphicsTextItem *check;
 
-    QList <ChessPiece *> alivePiece;
+    QList <Pion *> alivePiece;
     void displayMainMenu();
 
 
@@ -47,18 +45,18 @@ public slots:
     void start(int param);
 private:
         QGraphicsScene *gameScene;
-    QList <ChessPiece *> whiteDead;
-    QList <ChessPiece *> blackDead;
+    QList <Pion *> whiteDead;
+    QList <Pion *> blackDead;
     QGraphicsRectItem * deadHolder;
     Couleur turn;
-    damier *chess;
+    Damier *chess;
     QGraphicsPixmapItem *p;
     QGraphicsPixmapItem *p1;
-    bouton * playbouton;
-    bouton * playComputerbouton;
-    bouton * size8;
-    bouton * size10;
-    bouton * size12;
+    Bouton * playbouton;
+    Bouton * playComputerbouton;
+    Bouton * size8;
+    Bouton * size10;
+    Bouton * size12;
 
     QGraphicsTextItem * turnDisplay;
 

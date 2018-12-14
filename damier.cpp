@@ -1,16 +1,16 @@
 #include "damier.hpp"
 #include "boite.hpp"
 
-#include "pawn.hpp"
+#include "pion.hpp"
 
 //extern Game *game;
-damier::damier(Game *g, int param):game(g), param(param)
+Damier::Damier(Game *g, int param):game(g), param(param)
 {
 
     setUpBlack();
     setUpWhite();
 }
-void damier::drawBoxes(int x,int y)
+void Damier::drawBoites(int x,int y)
 {
     int shift;
     if (param==8)
@@ -22,7 +22,7 @@ void damier::drawBoxes(int x,int y)
     for(int i = 0; i < param; i++) {
         for(int j = 0; j < param; j++)
         {
-            boite *box = new boite(game, shift);
+            Boite *box = new Boite(game, shift);
             game->collection[i*12+j] = box;
             box->rowLoc = i;
             box->colLoc = j;
@@ -41,7 +41,7 @@ void damier::drawBoxes(int x,int y)
 }
 
 
-void damier::addChessPiece() {
+void Damier::addPion() {
     int j=1;
 
     for(int i = 0; i < param; i++) {
@@ -50,7 +50,7 @@ void damier::addChessPiece() {
         for(; j < param; j+=2)
         {
 
-            boite *box =game->collection[i*12+j];
+            Boite *box =game->collection[i*12+j];
             if(i < 3) {
                 static int k;
                 box->placePiece(black[k]);
@@ -68,37 +68,37 @@ void damier::addChessPiece() {
     }
 }
 
-void damier::setUpWhite()
+void Damier::setUpWhite()
 {
-    ChessPiece *piece;
+    Pion *piece;
     for(int i = 0; i < 3*param/2; i++) {
-        piece = new Pawn(Couleur::Blanc);
+        piece = new Pion(Couleur::Blanc);
         white.append(piece);
     }
 
 
 }
 
-void damier::setUpBlack()
+void Damier::setUpBlack()
 {
-    ChessPiece *piece;
+    Pion *piece;
 
     for(int i = 0; i < 3*param/2; i++) {
-        piece = new Pawn(Couleur::Noir);
+        piece = new Pion(Couleur::Noir);
         black.append(piece);
     }
 }
 
 
-void damier::reset() {
+void Damier::reset() {
     int k = 0; int h = 0;
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++)
         {
 
-            boite *box =game->collection[i*12+j];
-            box->setHasChessPiece(false);
-            box->setChessPieceColor(Couleur::None);
+            Boite *box =game->collection[i*12+j];
+            box->setHasPion(false);
+            box->setPionCouleur(Couleur::None);
             box->currentPiece = nullptr;
             if(i < 2) {
 

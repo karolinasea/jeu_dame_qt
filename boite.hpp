@@ -1,5 +1,5 @@
-#ifndef boite_H
-#define boite_H
+#ifndef BOITE_H
+#define BOITE_H
 
 #include <QGraphicsRectItem>
 #include <QBrush>
@@ -7,51 +7,51 @@
 
 
 #include "enumCouleur.hpp"
-#include "chesspiece.hpp"
+#include "pion.hpp"
 
 
-class ChessPiece;
+class Pion;
 class Game;
-class boite:public QGraphicsRectItem
+class Boite:public QGraphicsRectItem
 {
 public:
 
     //Constructor
-    boite(Game *g, int taille, QGraphicsItem *parent=nullptr);
-    ~boite();
+    Boite(Game *g, int taille, QGraphicsItem *parent=nullptr);
+    ~Boite();
 
 
     //public member function
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void setColor(QColor color);
-    void placePiece(ChessPiece *piece);
+    void setCouleur(QColor couleur);
+    void placePiece(Pion *piece);
 
 
     void resetOriginalColor();
-    void setOriginalColor(QColor value);
+    void setOriginalColor(QColor couleur);
 
-    bool getHasChessPiece();
-    void setHasChessPiece(bool value,ChessPiece *piece = nullptr);
+    bool getHasPion();
+    void setHasPion(bool value, Pion *piece = nullptr);
 
     void checkForCheck();
 
-    Couleur getChessPieceColor() ;
-    void setChessPieceColor(Couleur value);
+    Couleur getPionCouleur() ;
+    void setPionCouleur(Couleur couleur);
 
     char rowLoc;
     char colLoc;
 
-    ChessPiece * currentPiece;
+    Pion * currentPiece;
 
 private:
     Game *game;
     int taille;
     QBrush brush;
-    QColor originalColor;
-    bool hasChessPiece;
-    Couleur chessPieceColor;
+    QColor couleurDorigine;
+    bool hasPion;
+    Couleur couleurPion;
 
 
 };
 
-#endif // boite_H
+#endif // BOITE_H

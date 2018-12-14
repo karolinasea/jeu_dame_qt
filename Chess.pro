@@ -14,20 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     game.cpp \
-    chesspiece.cpp \
-    pawn.cpp \
     damier.cpp \
     boite.cpp \
-    bouton.cpp
+    bouton.cpp \
+    pion.cpp
 
 HEADERS  += \
-    chesspiece.hpp \
     game.hpp \
-    pawn.hpp \
     enumCouleur.hpp \
     damier.hpp \
     boite.hpp \
-    bouton.hpp
+    bouton.hpp \
+    pion.hpp
 
 FORMS    +=
 

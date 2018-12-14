@@ -3,26 +3,26 @@
 #include "game.hpp"
 
 //extern Game *game;
-boite::boite(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g), taille(taille)
+Boite::Boite(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g), taille(taille)
 {
     //making the Square CHess Box
     setRect(0,0,taille,taille);
     brush.setStyle(Qt::SolidPattern);
     setZValue(-1);
-    setHasChessPiece(false);
+    setHasPion(false);
 
     currentPiece = nullptr;
 }
 
-boite::~boite()
+Boite::~Boite()
 {
     delete this;
 }
 
-void boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-      //  qDebug() << getChessPieceColor();
-        //Deselecting counter part of ChessPiece
+      //  qDebug() << getpionColor();
+        //Deselecting counter part of pion
         if(currentPiece == game->pieceToMove && currentPiece){
 
             currentPiece->mousePressEvent(event);
@@ -32,10 +32,10 @@ void boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
         //if selected
         if(game->pieceToMove){
             //if same team
-            if(this->getChessPieceColor() == game->pieceToMove->getSide())
+            if(this->getPionCouleur() == game->pieceToMove->getSide())
                 return;
             //removing the eaten piece
-            QList <boite *> movLoc = game->pieceToMove->moveLocation();
+            QList <Boite *> movLoc = game->pieceToMove->moveLocation();
             //TO make sure the selected box is in move zone
             int check = 0;
             for(unsigned int i = 0, n = movLoc.size(); i < n;i++) {
@@ -52,16 +52,16 @@ void boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
              //make the first move false applicable for pawn only
              game->pieceToMove->firstMove = false;
              //this is to eat or consume the enemy present inn the movable region
-            if(this->getHasChessPiece()){
+            if(this->getHasPion()){
                 this->currentPiece->setIsPlaced(false);
-                this->currentPiece->setCurrentBox(NULL);
+                this->currentPiece->setCurrentBoite(NULL);
                 game->placeInDeadPlace(this->currentPiece);
 
             }
             //changing the new stat and resetting the previous left region
-            game->pieceToMove->getCurrentBox()->setHasChessPiece(false);
-            game->pieceToMove->getCurrentBox()->currentPiece = NULL;
-            game->pieceToMove->getCurrentBox()->resetOriginalColor();
+            game->pieceToMove->getCurrentBoite()->setHasPion(false);
+            game->pieceToMove->getCurrentBoite()->currentPiece = NULL;
+            game->pieceToMove->getCurrentBoite()->resetOriginalColor();
             placePiece(game->pieceToMove);
 
             game->pieceToMove = NULL;
@@ -69,60 +69,61 @@ void boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             game->changeTurn();
             checkForCheck();
         }
-        //Selecting couterpart of the chessPiece
-        else if(this->getHasChessPiece())
+        //Selecting couterpart of the pion
+        else if(this->getHasPion())
         {
             this->currentPiece->mousePressEvent(event);
         }
 }
 
-void boite::setColor(QColor color)
+void Boite::setCouleur(QColor color)
 {
     brush.setColor(color);
     setBrush(color);
 }
 
-void boite::placePiece(ChessPiece *piece)
+
+void Boite::placePiece(Pion *piece)
 {
 
     piece->setPos(x()+taille/2- piece->pixmap().width()/2  ,y()+taille/2-piece->pixmap().width()/2);
-    piece->setCurrentBox(this);
-    setHasChessPiece(true,piece);
+    piece->setCurrentBoite(this);
+    setHasPion(true,piece);
     currentPiece = piece;
 
 
 }
 
-void boite::resetOriginalColor()
+void Boite::resetOriginalColor()
 {
-    setColor(originalColor);
+    setCouleur(couleurDorigine);
 }
 
 
-void boite::setOriginalColor(QColor value)
+void Boite::setOriginalColor(QColor value)
 {
-    originalColor = value;
-    setColor(originalColor);
+    couleurDorigine = value;
+    setCouleur(couleurDorigine);
 }
 
-bool boite::getHasChessPiece()
+bool Boite::getHasPion()
 {
-    return hasChessPiece;
+    return hasPion;
 }
 
-void boite::setHasChessPiece(bool hasOne, ChessPiece *piece)
+void Boite::setHasPion(bool hasOne, Pion *piece)
 {
-    hasChessPiece = hasOne;
+    hasPion = hasOne;
     if(hasOne)
-        setChessPieceColor(piece->getSide());
+        setPionCouleur(piece->getSide());
     else
-        setChessPieceColor(Couleur::None);
+        setPionCouleur(Couleur::None);
 }
 
-void boite::checkForCheck()
+void Boite::checkForCheck()
 {
     int c = 0;
-    QList <ChessPiece *> pList = game->alivePiece;
+    QList <Pion *> pList = game->alivePiece;
     for(size_t i = 0,n=pList.size(); i < n; i++ ) {
 
       /*  King * p = dynamic_cast<King *> (pList[i]);
@@ -156,16 +157,16 @@ void boite::checkForCheck()
     if(!c){
         game->check->setVisible(false);
         for(size_t i = 0,n=pList.size(); i < n; i++ )
-            pList[i]->getCurrentBox()->resetOriginalColor();
+            pList[i]->getCurrentBoite()->resetOriginalColor();
     }
 }
 
-Couleur boite::getChessPieceColor()
+Couleur Boite::getPionCouleur()
 {
-    return chessPieceColor;
+    return couleurPion;
 }
 
-void boite::setChessPieceColor(Couleur value)
+void Boite::setPionCouleur(Couleur value)
 {
-    chessPieceColor = value;
+    couleurPion = value;
 }

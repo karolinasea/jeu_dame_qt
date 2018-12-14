@@ -1,32 +1,34 @@
-#ifndef damier_H
-#define damier_H
+#ifndef DAMIER_H
+#define DAMIER_H
+
 #include <QGraphicsRectItem>
-#include "chesspiece.hpp"
+#include "pion.hpp"
 #include "game.hpp"
+
 class Game;
-class damier
+class Damier
 {
 public:
-    damier(Game *g, int param);
+    Damier(Game *g, int param);
 
 
-    void drawBoxes(int x, int y);
+    void drawBoites(int x, int y);
 
     void setUpWhite();
     void setUpBlack();
 
 
 
-    void addChessPiece();
+    void addPion();
     void reset();
 private:
     Game *game;
     int param;
-    QList <ChessPiece *> white;
-    QList <ChessPiece *> black;
+    QList <Pion *> white;
+    QList <Pion *> black;
 
 
 
 };
 
-#endif // damier_H
+#endif // DAMIER_H

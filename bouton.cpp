@@ -2,7 +2,7 @@
 #include <QGraphicsTextItem>
 #include <QBrush>
 
-bouton::bouton(QString name, QGraphicsItem *parent)
+Bouton::Bouton(QString name, QGraphicsItem *parent)
     :QGraphicsRectItem(parent)
 {
     //draw the rect
@@ -23,14 +23,14 @@ bouton::bouton(QString name, QGraphicsItem *parent)
     setAcceptHoverEvents(true);
 }
 
-void bouton::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void Bouton::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(event)
     emit clicked();
 
 }
 
-void bouton::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void Bouton::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     //change color
     if(event){
@@ -40,7 +40,7 @@ void bouton::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     setBrush(brush);
     }
 }
-void bouton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
+void Bouton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
     //change color
     if(event){
     QBrush brush;
