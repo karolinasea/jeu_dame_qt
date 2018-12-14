@@ -1,9 +1,9 @@
-#include "chessbox.hpp"
+#include "boite.hpp"
 #include <QDebug>
 #include "game.hpp"
 
 //extern Game *game;
-ChessBox::ChessBox(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g), taille(taille)
+boite::boite(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g), taille(taille)
 {
     //making the Square CHess Box
     setRect(0,0,taille,taille);
@@ -14,12 +14,12 @@ ChessBox::ChessBox(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem
     currentPiece = nullptr;
 }
 
-ChessBox::~ChessBox()
+boite::~boite()
 {
     delete this;
 }
 
-void ChessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
       //  qDebug() << getChessPieceColor();
         //Deselecting counter part of ChessPiece
@@ -35,7 +35,7 @@ void ChessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
             if(this->getChessPieceColor() == game->pieceToMove->getSide())
                 return;
             //removing the eaten piece
-            QList <ChessBox *> movLoc = game->pieceToMove->moveLocation();
+            QList <boite *> movLoc = game->pieceToMove->moveLocation();
             //TO make sure the selected box is in move zone
             int check = 0;
             for(unsigned int i = 0, n = movLoc.size(); i < n;i++) {
@@ -76,13 +76,13 @@ void ChessBox::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
 }
 
-void ChessBox::setColor(QColor color)
+void boite::setColor(QColor color)
 {
     brush.setColor(color);
     setBrush(color);
 }
 
-void ChessBox::placePiece(ChessPiece *piece)
+void boite::placePiece(ChessPiece *piece)
 {
 
     piece->setPos(x()+taille/2- piece->pixmap().width()/2  ,y()+taille/2-piece->pixmap().width()/2);
@@ -93,24 +93,24 @@ void ChessBox::placePiece(ChessPiece *piece)
 
 }
 
-void ChessBox::resetOriginalColor()
+void boite::resetOriginalColor()
 {
     setColor(originalColor);
 }
 
 
-void ChessBox::setOriginalColor(QColor value)
+void boite::setOriginalColor(QColor value)
 {
     originalColor = value;
     setColor(originalColor);
 }
 
-bool ChessBox::getHasChessPiece()
+bool boite::getHasChessPiece()
 {
     return hasChessPiece;
 }
 
-void ChessBox::setHasChessPiece(bool hasOne, ChessPiece *piece)
+void boite::setHasChessPiece(bool hasOne, ChessPiece *piece)
 {
     hasChessPiece = hasOne;
     if(hasOne)
@@ -119,7 +119,7 @@ void ChessBox::setHasChessPiece(bool hasOne, ChessPiece *piece)
         setChessPieceColor(Couleur::None);
 }
 
-void ChessBox::checkForCheck()
+void boite::checkForCheck()
 {
     int c = 0;
     QList <ChessPiece *> pList = game->alivePiece;
@@ -131,7 +131,7 @@ void ChessBox::checkForCheck()
         }
         pList[i]->moves();
         pList[i]->decolor();
-        QList <ChessBox *> bList = pList[i]->moveLocation();
+        QList <boite *> bList = pList[i]->moveLocation();
         for(size_t j = 0,n = bList.size(); j < n; j ++) {
             King * p = dynamic_cast<King *> (bList[j]->currentPiece);
             if(p) {
@@ -160,12 +160,12 @@ void ChessBox::checkForCheck()
     }
 }
 
-Couleur ChessBox::getChessPieceColor()
+Couleur boite::getChessPieceColor()
 {
     return chessPieceColor;
 }
 
-void ChessBox::setChessPieceColor(Couleur value)
+void boite::setChessPieceColor(Couleur value)
 {
     chessPieceColor = value;
 }

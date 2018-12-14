@@ -1,16 +1,16 @@
-#include "chessboard.hpp"
-#include "chessbox.hpp"
+#include "damier.hpp"
+#include "boite.hpp"
 
 #include "pawn.hpp"
 
 //extern Game *game;
-ChessBoard::ChessBoard(Game *g, int param):game(g), param(param)
+damier::damier(Game *g, int param):game(g), param(param)
 {
 
     setUpBlack();
     setUpWhite();
 }
-void ChessBoard::drawBoxes(int x,int y)
+void damier::drawBoxes(int x,int y)
 {
     int shift;
     if (param==8)
@@ -22,7 +22,7 @@ void ChessBoard::drawBoxes(int x,int y)
     for(int i = 0; i < param; i++) {
         for(int j = 0; j < param; j++)
         {
-            ChessBox *box = new ChessBox(game, shift);
+            boite *box = new boite(game, shift);
             game->collection[i*12+j] = box;
             box->rowLoc = i;
             box->colLoc = j;
@@ -41,7 +41,7 @@ void ChessBoard::drawBoxes(int x,int y)
 }
 
 
-void ChessBoard::addChessPiece() {
+void damier::addChessPiece() {
     int j=1;
 
     for(int i = 0; i < param; i++) {
@@ -50,7 +50,7 @@ void ChessBoard::addChessPiece() {
         for(; j < param; j+=2)
         {
 
-            ChessBox *box =game->collection[i*12+j];
+            boite *box =game->collection[i*12+j];
             if(i < 3) {
                 static int k;
                 box->placePiece(black[k]);
@@ -68,7 +68,7 @@ void ChessBoard::addChessPiece() {
     }
 }
 
-void ChessBoard::setUpWhite()
+void damier::setUpWhite()
 {
     ChessPiece *piece;
     for(int i = 0; i < 3*param/2; i++) {
@@ -79,7 +79,7 @@ void ChessBoard::setUpWhite()
 
 }
 
-void ChessBoard::setUpBlack()
+void damier::setUpBlack()
 {
     ChessPiece *piece;
 
@@ -90,13 +90,13 @@ void ChessBoard::setUpBlack()
 }
 
 
-void ChessBoard::reset() {
+void damier::reset() {
     int k = 0; int h = 0;
     for(int i = 0; i < 8; i++) {
         for(int j = 0; j < 8; j++)
         {
 
-            ChessBox *box =game->collection[i*12+j];
+            boite *box =game->collection[i*12+j];
             box->setHasChessPiece(false);
             box->setChessPieceColor(Couleur::None);
             box->currentPiece = nullptr;

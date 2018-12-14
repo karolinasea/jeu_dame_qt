@@ -139,7 +139,7 @@ void Game::start(int param)
         drawDeadHolder(0,0,Qt::lightGray);
         drawDeadHolder(1100,0,Qt::lightGray);
 
-        chess = new ChessBoard(this, param);
+        chess = new damier(this, param);
         chess->drawBoxes(width()/2-400,50);
 
     addToScene(turnDisplay);
@@ -174,26 +174,26 @@ void Game::drawDeadHolder(int x, int y,QColor color)
 
 void Game::displaySizeMenu()
 {
-    removeFromScene(playButton);
-    removeFromScene(playComputerButton);
+    removeFromScene(playbouton);
+    removeFromScene(playComputerbouton);
 
-    size8 = new Button("64 cases 8x8");
+    size8 = new bouton("64 cases 8x8");
     int pxPos = width()/2 - size8->boundingRect().width()/2;
     size8->setPos(pxPos,300);    
     addToScene(size8);
 
-    size10 = new Button("100 cases 10x10");
+    size10 = new bouton("100 cases 10x10");
     size10->setPos(pxPos,400);
     addToScene(size10);
 
-    size12 = new Button("144 cases 12x12");
+    size12 = new bouton("144 cases 12x12");
     size12->setPos(pxPos,500);
     addToScene(size12);
 
 
-    connect(size8,  &Button::clicked, this, [this]{ start(8); });
-    connect(size10,  &Button::clicked, this, [this]{ start(10); });
-    connect(size12, &Button::clicked, this, [this]{ start(12); });
+    connect(size8,  &bouton::clicked, this, [this]{ start(8); });
+    connect(size10,  &bouton::clicked, this, [this]{ start(10); });
+    connect(size12, &bouton::clicked, this, [this]{ start(12); });
 
 
 }
@@ -222,21 +222,21 @@ void Game::displayMainMenu()
     addToScene(titleText);
     listG.append(titleText);*/
 
-    //create Button
-    playButton = new Button("Play 2 v 2");
-    int pxPos = width()/2 - playButton->boundingRect().width()/2;
+    //create bouton
+    playbouton = new bouton("Play 2 v 2");
+    int pxPos = width()/2 - playbouton->boundingRect().width()/2;
     int pyPos = 300;
-    playButton->setPos(pxPos,pyPos);
-    connect(playButton,SIGNAL(clicked()) , this , SLOT(displaySizeMenu()));
-    addToScene(playButton);
+    playbouton->setPos(pxPos,pyPos);
+    connect(playbouton,SIGNAL(clicked()) , this , SLOT(displaySizeMenu()));
+    addToScene(playbouton);
 
 
-    playComputerButton = new Button("Play vs Computer");
-    int qxPos = width()/2 - playComputerButton->boundingRect().width()/2;
+    playComputerbouton = new bouton("Play vs Computer");
+    int qxPos = width()/2 - playComputerbouton->boundingRect().width()/2;
     int qyPos = 375;
-    playComputerButton->setPos(qxPos,qyPos);
-    //connect(playComputerButton, SIGNAL(clicked()),this,SLOT(close()));
-    addToScene(playComputerButton);
+    playComputerbouton->setPos(qxPos,qyPos);
+    //connect(playComputerbouton, SIGNAL(clicked()),this,SLOT(close()));
+    addToScene(playComputerbouton);
 
 }
 

@@ -1,15 +1,15 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef BOUTON_H
+#define BOUTON_H
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsRectItem>
 
 
-class Button:public QObject, public QGraphicsRectItem
+class bouton:public QObject, public QGraphicsRectItem
 {
      Q_OBJECT
 public:
 
-    Button(QString name, QGraphicsItem * parent = nullptr);
+    bouton(QString name, QGraphicsItem * parent = nullptr);
 
     //public methods
 
@@ -22,4 +22,4 @@ signals:
 private:
     QGraphicsTextItem *text;
 };
-#endif // BUTTON_H
+#endif // bouton_H

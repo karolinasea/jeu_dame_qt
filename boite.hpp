@@ -1,5 +1,5 @@
-#ifndef CHESSBOX_H
-#define CHESSBOX_H
+#ifndef boite_H
+#define boite_H
 
 #include <QGraphicsRectItem>
 #include <QBrush>
@@ -12,13 +12,13 @@
 
 class ChessPiece;
 class Game;
-class ChessBox:public QGraphicsRectItem
+class boite:public QGraphicsRectItem
 {
 public:
 
     //Constructor
-    ChessBox(Game *g, int taille, QGraphicsItem *parent=nullptr);
-    ~ChessBox();
+    boite(Game *g, int taille, QGraphicsItem *parent=nullptr);
+    ~boite();
 
 
     //public member function
@@ -54,4 +54,4 @@ private:
 
 };
 
-#endif // CHESSBOX_H
+#endif // boite_H

@@ -3,10 +3,10 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QSignalMapper>
-#include "chessboard.hpp"
-#include "button.hpp"
+#include "damier.hpp"
+#include "bouton.hpp"
 //#include "chesspiece.hpp"
-class ChessBoard;
+class damier;
 class Game:public QGraphicsView
 {
     Q_OBJECT
@@ -33,7 +33,7 @@ public:
 
 
 
-    ChessBox *collection[144];
+    boite *collection[144];
     QGraphicsTextItem *check;
 
     QList <ChessPiece *> alivePiece;
@@ -51,14 +51,14 @@ private:
     QList <ChessPiece *> blackDead;
     QGraphicsRectItem * deadHolder;
     Couleur turn;
-    ChessBoard *chess;
+    damier *chess;
     QGraphicsPixmapItem *p;
     QGraphicsPixmapItem *p1;
-    Button * playButton;
-    Button * playComputerButton;
-    Button * size8;
-    Button * size10;
-    Button * size12;
+    bouton * playbouton;
+    bouton * playComputerbouton;
+    bouton * size8;
+    bouton * size10;
+    bouton * size12;
 
     QGraphicsTextItem * turnDisplay;
 

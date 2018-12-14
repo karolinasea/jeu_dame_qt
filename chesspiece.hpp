@@ -4,18 +4,18 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 
-#include "chessbox.hpp"
+#include "boite.hpp"
 
-class ChessBox;
+class boite;
 class ChessPiece:public QGraphicsPixmapItem
 {
 public:
     ChessPiece(Couleur team = Couleur::None,QGraphicsItem *parent = nullptr);
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void setCurrentBox(ChessBox *box);
+    void setCurrentBox(boite *box);
 
-    ChessBox *getCurrentBox() ;
+    boite *getCurrentBox() ;
 
     Couleur getSide() ;
     void setSide( Couleur value);
@@ -24,18 +24,18 @@ public:
     bool getIsPlaced() ;
     void setIsPlaced(bool value);
 
-    QList <ChessBox *> moveLocation();
+    QList <boite *> moveLocation();
     virtual void moves() = 0;
     void decolor();
 
     bool firstMove;
 
-    bool boxSetting(ChessBox *box);
+    bool boxSetting(boite *box);
 protected:
-    ChessBox *currentBox;
+    boite *currentBox;
     Couleur side;
     bool isPlaced;
-    QList <ChessBox *> location;
+    QList <boite *> location;
 
 
 };

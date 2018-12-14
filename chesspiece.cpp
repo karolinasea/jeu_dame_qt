@@ -27,7 +27,7 @@ void ChessPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
         game->pieceToMove->getCurrentBox()->setColor(Qt::red);
         game->pieceToMove->moves();
     }
-    //Consuming counterPart of the CHessBox
+    //Consuming counterPart of the boite
     else if(this->getSide() != game->pieceToMove->getSide()){
         this->getCurrentBox()->mousePressEvent(event);
     }
@@ -35,13 +35,13 @@ void ChessPiece::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 }
 
-void ChessPiece::setCurrentBox(ChessBox *box)
+void ChessPiece::setCurrentBox(boite *box)
 {
 
     currentBox = box;
 }
 
-ChessBox *ChessPiece::getCurrentBox()
+boite *ChessPiece::getCurrentBox()
 {
     return currentBox;
 }
@@ -66,7 +66,7 @@ void ChessPiece::setIsPlaced(bool value)
     isPlaced = value;
 
 }
-QList<ChessBox *> ChessPiece::moveLocation()
+QList<boite *> ChessPiece::moveLocation()
 {
     return location;
 }
@@ -77,7 +77,7 @@ void ChessPiece::decolor()
     }
 }
 
-bool ChessPiece::boxSetting(ChessBox *box)
+bool ChessPiece::boxSetting(boite *box)
 {
     if(box->getHasChessPiece()) {
         /*King *q = dynamic_cast<King*>(location.last()->currentPiece);

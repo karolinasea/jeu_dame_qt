@@ -1,13 +1,13 @@
-#ifndef CHESSBOARD_H
-#define CHESSBOARD_H
+#ifndef damier_H
+#define damier_H
 #include <QGraphicsRectItem>
 #include "chesspiece.hpp"
 #include "game.hpp"
 class Game;
-class ChessBoard
+class damier
 {
 public:
-    ChessBoard(Game *g, int param);
+    damier(Game *g, int param);
 
 
     void drawBoxes(int x, int y);
@@ -29,4 +29,4 @@ private:
 
 };
 
-#endif // CHESSBOARD_H
+#endif // damier_H
