@@ -31,6 +31,8 @@ public:
     void setTurn( Couleur value);
     void changeTurn();
 
+    char largeurBoite; // public pour le moment pour Damier
+
     Boite *collection[144];
     QGraphicsTextItem *check;
 
@@ -45,11 +47,11 @@ public slots:
     void start(int param);
 private:
         QGraphicsScene *gameScene;
-    QList <Pion *> whiteDead;
-    QList <Pion *> blackDead;
-    QGraphicsRectItem * deadHolder;
-    Couleur turn;
-    Damier *chess;
+    QList <Pion *> blancMort;
+    QList <Pion *> noirMort;
+    QGraphicsRectItem * cimetiere;
+    Couleur tour;
+    Damier *leDamier;
     QGraphicsPixmapItem *p;
     QGraphicsPixmapItem *p1;
     Bouton * playbouton;
@@ -58,7 +60,7 @@ private:
     Bouton * size10;
     Bouton * size12;
 
-    QGraphicsTextItem * turnDisplay;
+    QGraphicsTextItem * affTour;
 
 
 };

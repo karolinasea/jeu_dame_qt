@@ -3,10 +3,10 @@
 #include "game.hpp"
 
 //extern Game *game;
-Boite::Boite(Game *g, int taille, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g), taille(taille)
+Boite::Boite(Game *g, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g)
 {
     //making the Square CHess Box
-    setRect(0,0,taille,taille);
+    setRect(0,0,game->largeurBoite,game->largeurBoite);
     brush.setStyle(Qt::SolidPattern);
     setZValue(-1);
     setHasPion(false);
@@ -86,7 +86,7 @@ void Boite::setCouleur(QColor color)
 void Boite::placePiece(Pion *piece)
 {
 
-    piece->setPos(x()+taille/2- piece->pixmap().width()/2  ,y()+taille/2-piece->pixmap().width()/2);
+    piece->setPos(x()+game->largeurBoite/2- piece->pixmap().width()/2  ,y()+game->largeurBoite/2-piece->pixmap().width()/2);
     piece->setCurrentBoite(this);
     setHasPion(true,piece);
     currentPiece = piece;

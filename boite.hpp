@@ -17,7 +17,7 @@ class Boite:public QGraphicsRectItem
 public:
 
     //Constructor
-    Boite(Game *g, int taille, QGraphicsItem *parent=nullptr);
+    Boite(Game *g, QGraphicsItem *parent=nullptr);
     ~Boite();
 
 
@@ -45,7 +45,7 @@ public:
 
 private:
     Game *game;
-    int taille;
+
     QBrush brush;
     QColor couleurDorigine;
     bool hasPion;

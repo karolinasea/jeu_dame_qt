@@ -12,21 +12,15 @@ Damier::Damier(Game *g, int param):game(g), param(param)
 }
 void Damier::drawBoites(int x,int y)
 {
-    int shift;
-    if (param==8)
-        shift = 100;
-    else if (param==10)
-        shift=80;
-    else if (param==12)
-        shift=67;
+
     for(int i = 0; i < param; i++) {
         for(int j = 0; j < param; j++)
         {
-            Boite *box = new Boite(game, shift);
+            Boite *box = new Boite(game);
             game->collection[i*12+j] = box;
             box->rowLoc = i;
             box->colLoc = j;
-            box->setPos(x+shift*j,y+shift*i);
+            box->setPos(x+game->largeurBoite*j,y+game->largeurBoite*i);
             if((i+j)%2==0)
                 box->setOriginalColor(Qt::white);
             else

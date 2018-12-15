@@ -21,12 +21,12 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)
     pieceToMove = nullptr;
 
     //display turn
-    turnDisplay = new QGraphicsTextItem();
-    turnDisplay->setPos(width()/2-100,10);
-    turnDisplay->setZValue(1);
-    turnDisplay->setDefaultTextColor(Qt::white);
-    turnDisplay->setFont(QFont("",18));
-    turnDisplay->setPlainText("Tour : Blanc");
+    affTour = new QGraphicsTextItem();
+    affTour->setPos(width()/2-100,10);
+    affTour->setZValue(1);
+    affTour->setDefaultTextColor(Qt::white);
+    affTour->setFont(QFont("",18));
+    affTour->setPlainText("Tour : Blanc");
 
     //display Check
     check = new QGraphicsTextItem();
@@ -46,12 +46,12 @@ void Game::displayDeadWhite()
     int SHIFT=70;
     int j = 0;
     int k = 0;                 // Qlist.size quel type ça renvoie
-    for(unsigned int i = 0,n = whiteDead.size(); i<n; i++) {
+    for(unsigned int i = 0,n = blancMort.size(); i<n; i++) {
             if(j == 4){
                 k++;
                 j = 0;
             }
-            whiteDead[i]->setPos(40+SHIFT*j++,100+SHIFT*2*k);
+            blancMort[i]->setPos(40+SHIFT*j++,100+SHIFT*2*k);
     }
 }
 
@@ -60,19 +60,19 @@ void Game::displayDeadBlack()
     int SHIFT = 70;
     int j = 0;
     int k = 0;
-    for(size_t i = 0,n = blackDead.size(); i<n; i++) {
+    for(size_t i = 0,n = noirMort.size(); i<n; i++) {
         if(j == 4){
             k++;
             j = 0;
         }
-        blackDead[i]->setPos(1140+SHIFT*j++,100+SHIFT*2*k);
+        noirMort[i]->setPos(1140+SHIFT*j++,100+SHIFT*2*k);
     }
 }
 
 void Game::placeInDeadPlace(Pion *piece)
 {
     if(piece->getSide() == Couleur::Blanc) {
-        whiteDead.append(piece);
+        blancMort.append(piece);
         /*King *g = dynamic_cast <King *>(piece);
         if(g){
 
@@ -82,7 +82,7 @@ void Game::placeInDeadPlace(Pion *piece)
         displayDeadWhite();
     }
     else{
-        blackDead.append(piece);
+        noirMort.append(piece);
         /*King *g = dynamic_cast <King *>(piece);
         if(g){
 
@@ -107,23 +107,23 @@ void Game::removeFromScene(QGraphicsItem *item)
 
 Couleur Game::getTurn()
 {
-    return turn;
+    return tour;
 }
 
 void Game::setTurn(Couleur value)
 {
-    turn = value;
+    tour = value;
 }
 
 void Game::changeTurn()
 {
     if(getTurn() == Couleur::Blanc){
         setTurn(Couleur::Noir);
-        turnDisplay->setPlainText("Tour : NOIR");
+        affTour->setPlainText("Tour : NOIR");
     }
     else {
         setTurn(Couleur::Blanc);
-     turnDisplay->setPlainText("Tour : BLANC");
+     affTour->setPlainText("Tour : BLANC");
     }
 }
 
@@ -139,10 +139,18 @@ void Game::start(int param)
         drawDeadHolder(0,0,Qt::lightGray);
         drawDeadHolder(1100,0,Qt::lightGray);
 
-        chess = new Damier(this, param);
-        chess->drawBoites(width()/2-400,50);
+        if (param==8)
+            largeurBoite = 100;
+        else if (param==10)
+            largeurBoite=80;
+        else if (param==12)
+            largeurBoite=67;
 
-    addToScene(turnDisplay);
+
+        leDamier = new Damier(this, param);
+        leDamier->drawBoites(width()/2-400,50);
+
+    addToScene(affTour);
     QGraphicsTextItem* whitePiece = new QGraphicsTextItem();
     whitePiece->setPos(70,10);
     whitePiece->setZValue(1);
@@ -159,17 +167,17 @@ void Game::start(int param)
     blackPiece->setPlainText("BLACK PIECE");
     addToScene(blackPiece);
     addToScene(check);
-    chess->addPion();
+    leDamier->addPion();
 }
 
 void Game::drawDeadHolder(int x, int y,QColor color)
 {
-    deadHolder = new QGraphicsRectItem(x,y,300,900);
+    cimetiere = new QGraphicsRectItem(x,y,300,900);
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(color);
-    deadHolder->setBrush(brush);
-    addToScene(deadHolder);
+    cimetiere->setBrush(brush);
+    addToScene(cimetiere);
 }
 
 void Game::displaySizeMenu()
@@ -245,10 +253,7 @@ void Game::gameOver()
     //removeAll();
     setTurn(Couleur::Blanc);
     alivePiece.clear();
-    chess->reset();
-
-
-
+    leDamier->reset();
 
 }
 
