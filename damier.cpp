@@ -44,7 +44,7 @@ void Damier::addPion() {
         for(; j < param; j+=2)
         {
 
-            Boite *box =game->tab_damier[i*12+j];
+            Boite *box =game->tab_damier[i*param+j];
             if(i < 3) {
                 static int k;
                 box->placePiece(black[k]);
