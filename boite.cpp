@@ -34,8 +34,8 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             //if same team
             if(this->getPionCouleur() == game->pieceToMove->getSide())
                 return;
-            //removing the eaten piece
-            QList <Boite *> movLoc = game->pieceToMove->moveLocation();
+            //pièce à manger on vérifie
+            QList <Boite *> movLoc = game->pieceToMove->movelocation();
             //TO make sure the selected box is in move zone
             int check = 0;
             for(unsigned int i = 0, n = movLoc.size(); i < n;i++) {
@@ -49,31 +49,30 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 return;
             //change the color back to normal
              game->pieceToMove->decolor();
-             //make the first move false applicable for pawn only
-             game->pieceToMove->firstMove = false;
+
              //this is to eat or consume the enemy present inn the movable region
             if(this->getHasPion()){
                 this->currentPiece->setIsPlaced(false);
-                this->currentPiece->setCurrentBoite(NULL);
+                this->currentPiece->setCurrentBoite(nullptr);
                 game->placeInDeadPlace(this->currentPiece);
 
             }
             //changing the new stat and resetting the previous left region
             game->pieceToMove->getCurrentBoite()->setHasPion(false);
-            game->pieceToMove->getCurrentBoite()->currentPiece = NULL;
+            game->pieceToMove->getCurrentBoite()->currentPiece = nullptr;
             game->pieceToMove->getCurrentBoite()->resetOriginalColor();
             placePiece(game->pieceToMove);
 
-            game->pieceToMove = NULL;
+            game->pieceToMove = nullptr;
             //changing turn
             game->changeTurn();
-            checkForCheck();
+            //checkForCheck();
         }
         //Selecting couterpart of the pion
-        else if(this->getHasPion())
+        /*else if(this->getHasPion())
         {
             this->currentPiece->mousePressEvent(event);
-        }
+        }*/
 }
 
 void Boite::setCouleur(QColor color)

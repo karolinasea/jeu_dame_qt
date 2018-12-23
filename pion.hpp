@@ -26,11 +26,9 @@ public:
     bool getIsPlaced() ;
     void setIsPlaced(bool value);
 
-    QList <Boite *> moveLocation();
+    QList <Boite *> movelocation();
 
     void decolor();
-
-    bool firstMove;
 
     bool boxSetting(Boite *box);
 

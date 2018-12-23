@@ -2,7 +2,7 @@
 
 #include <QPixmap>
 #include <QDebug>
-Game::Game(QWidget *parent ):QGraphicsView(parent)
+Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
 {
 
     //Making the Scene
@@ -139,6 +139,8 @@ void Game::start(int param)
         drawDeadHolder(0,0,Qt::lightGray);
         drawDeadHolder(1100,0,Qt::lightGray);
 
+
+        nbCases=param;
         if (param==8)
             largeurBoite = 100;
         else if (param==10)

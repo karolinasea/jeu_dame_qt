@@ -43,8 +43,9 @@ public:
 
     Pion * currentPiece;
 
-private:
-    Game *game;
+    Game *game;  //public pour pion
+
+private:    
 
     QBrush brush;
     QColor couleurDorigine;

@@ -3,6 +3,8 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QSignalMapper>
+#include <QVector>
+
 #include "damier.hpp"
 #include "bouton.hpp"
 #include "pion.hpp"
@@ -33,7 +35,11 @@ public:
 
     char largeurBoite; // public pour le moment pour Damier
 
-    Boite *collection[144];
+    char nbCases;
+
+    //Boite *collection[144];
+    QVector<Boite *> tab_damier; //vecteur c mieux,au moins 64 cases réservées (damier 8*8) dans le constructeur
+
     QGraphicsTextItem *check;
 
     QList <Pion *> alivePiece;

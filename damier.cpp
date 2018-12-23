@@ -17,7 +17,7 @@ void Damier::drawBoites(int x,int y)
         for(int j = 0; j < param; j++)
         {
             Boite *box = new Boite(game);
-            game->collection[i*12+j] = box;
+            game->tab_damier.append(box);
             box->rowLoc = i;
             box->colLoc = j;
             box->setPos(x+game->largeurBoite*j,y+game->largeurBoite*i);
@@ -44,7 +44,7 @@ void Damier::addPion() {
         for(; j < param; j+=2)
         {
 
-            Boite *box =game->collection[i*12+j];
+            Boite *box =game->tab_damier[i*12+j];
             if(i < 3) {
                 static int k;
                 box->placePiece(black[k]);
@@ -90,7 +90,7 @@ void Damier::reset() {
         for(int j = 0; j < 8; j++)
         {
 
-            Boite *box =game->collection[i*12+j];
+            Boite *box =game->tab_damier[i*12+j];
             box->setHasPion(false);
             box->setPionCouleur(Couleur::None);
             box->currentPiece = nullptr;
@@ -98,7 +98,6 @@ void Damier::reset() {
 
                 box->placePiece(black[k]);
                 black[k]->setIsPlaced(true);
-                black[k]->firstMove = true;
                 game->alivePiece.append(black[k++]);
 
             }
@@ -106,7 +105,6 @@ void Damier::reset() {
 
                 box->placePiece(white[h]);
                 white[h]->setIsPlaced(true);
-                white[h]->firstMove = true;
                 game->alivePiece.append(white[h++]);
 
             }

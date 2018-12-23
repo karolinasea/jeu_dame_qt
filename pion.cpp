@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <typeinfo>
 
-extern Game * game;
-Pion::Pion (Couleur team,QGraphicsItem *parent) : QGraphicsPixmapItem(parent), firstMove(true), side(team), isPlaced(true)
+
+Pion::Pion (Couleur team,QGraphicsItem *parent) : QGraphicsPixmapItem(parent), side(team), isPlaced(true)
 {
     if(side == Couleur::Blanc)
         setPixmap(QPixmap(":/images/pawn1.png"));
@@ -16,24 +16,24 @@ Pion::Pion (Couleur team,QGraphicsItem *parent) : QGraphicsPixmapItem(parent), f
 void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //Deselect
-    if(this == game->pieceToMove){
-        game->pieceToMove->getCurrentBoite()->resetOriginalColor();
-        game->pieceToMove->decolor();
-        game->pieceToMove = nullptr;
+    if(this == currentBox->game->pieceToMove){
+        currentBox->game->pieceToMove->getCurrentBoite()->resetOriginalColor();
+        currentBox->game->pieceToMove->decolor();
+        currentBox->game->pieceToMove = nullptr;
        return;
     }
     //if it is already consumed or not the respective color's turn
-    if((!getIsPlaced() )|| ( (game->getTurn() != this->getSide())&& (!game->pieceToMove)) )
+    if((!getIsPlaced() )|| ( (currentBox->game->getTurn() != this->getSide())&& (!currentBox->game->pieceToMove)) )
         return;
     //selecting
-    if(!game->pieceToMove){
+    if(!currentBox->game->pieceToMove){
 
-        game->pieceToMove = this;
-        game->pieceToMove->getCurrentBoite()->setCouleur(Qt::red);
-        game->pieceToMove->moves();
+        currentBox->game->pieceToMove = this;
+        currentBox->game->pieceToMove->getCurrentBoite()->setCouleur(Qt::red);
+        currentBox->game->pieceToMove->moves();
     }
     //Consuming counterPart of the boite
-    else if(this->getSide() != game->pieceToMove->getSide()){
+    else if(this->getSide() != currentBox->game->pieceToMove->getSide()){
         this->getCurrentBoite()->mousePressEvent(event);
     }
 
@@ -49,40 +49,34 @@ void Pion::moves()
 
     int col = this->getCurrentBoite()->colLoc;
     if(this->getSide() == Couleur::Blanc)  {
-        if(col > 0 && row > 0 && game->collection[(row-1)*12+col-1]->getPionCouleur() == Couleur::Noir) {
-            location.append(game->collection[(row-1)*12+col-1]);
+        if(col > 0 && row > 0 && currentBox->game->tab_damier[(row-1)*12+col-1]->getPionCouleur() == Couleur::Noir) {  //gauche
+            location.append(currentBox->game->tab_damier[(row-1)*12+col-1]);
             boxSetting(location.last());
         }
-        if(col < 7 && row > 0 && game->collection[(row-1)*12+col+1]->getPionCouleur() == Couleur::Noir) {
-            location.append(game->collection[(row-1)*12+col+1]);
+        if(col < currentBox->game->nbCases-1 && row > 0 && currentBox->game->tab_damier[(row-1)*12+col+1]->getPionCouleur() == Couleur::Noir) { //droite
+            location.append(currentBox->game->tab_damier[(row-1)*12+col+1]);
             boxSetting(location.last());
         }
-        if(row>0 && (!game->collection[(row-1)*12+col]->getHasPion())) {
-            location.append(game->collection[(row-1)*12+col]);
+        if(row>0 && (!currentBox->game->tab_damier[(row-1)*12+col]->getHasPion())) {
+            location.append(currentBox->game->tab_damier[(row-1)*12+col]);
             boxSetting(location.last());
-            if(firstMove && !game->collection[(row-2)*12+col]->getHasPion()){
-                location.append(game->collection[(row-2)*12+col]);
-                boxSetting(location.last());
-            }
+
         }
 
     }
     else{
-        if(col > 0 && row < 7 && game->collection[(row+1)*12+col-1]->getPionCouleur() == Couleur::Blanc) {//left
-            location.append(game->collection[(row+1)*12+col-1]);
+        if(col > 0 && row < currentBox->game->nbCases-1 && currentBox->game->tab_damier[(row+1)*12+col-1]->getPionCouleur() == Couleur::Blanc) {//left
+            location.append(currentBox->game->tab_damier[(row+1)*12+col-1]);
             boxSetting(location.last());
         }
-        if(col < 7 && row <  7 && game->collection[(row+1)*12+col+1]->getPionCouleur() == Couleur::Blanc) {//right
-            location.append(game->collection[(row+1)*12+col+1]);
+        if(col < currentBox->game->nbCases-1 && row <  currentBox->game->nbCases-1 && currentBox->game->tab_damier[(row+1)*12+col+1]->getPionCouleur() == Couleur::Blanc) {//right
+            location.append(currentBox->game->tab_damier[(row+1)*12+col+1]);
             boxSetting(location.last());
         }
-        if(row<7 && (!game->collection[(row+1)*12+col]->getHasPion())) {
-            location.append(game->collection[(row+1)*12+col]);
+        if(row< currentBox->game->nbCases-1 && (!currentBox->game->tab_damier[(row+1)*12+col]->getHasPion())) {
+            location.append(currentBox->game->tab_damier[(row+1)*12+col]);
             boxSetting(location.last());
-            if(firstMove && !game->collection[(row+2)*12+col]->getHasPion()){
-                location.append(game->collection[(row+2)*12+col]);
-                boxSetting(location.last());
-            }
+
 
         }
 
@@ -121,7 +115,7 @@ void Pion::setIsPlaced(bool value)
     isPlaced = value;
 
 }
-QList<Boite *> Pion::moveLocation()
+QList<Boite *> Pion::movelocation()
 {
     return location;
 }
@@ -135,7 +129,7 @@ void Pion::decolor()
 bool Pion::boxSetting(Boite *box)
 {
     if(box->getHasPion()) {
-        /*King *q = dynamic_cast<King*>(location.last()->currentPiece);
+        /*King *q = dynamic_cast<King*>(tab_damier.last()->currentPiece);
         if(q){
             box->setColor(Qt::blue);
         }
