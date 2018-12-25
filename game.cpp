@@ -47,7 +47,7 @@ void Game::displayDeadWhite()
     int j = 0;
     int k = 0;                 // Qlist.size quel type ça renvoie
     for(unsigned int i = 0,n = blancMort.size(); i<n; i++) {
-            if(j == 4){
+            if(j == 3){
                 k++;
                 j = 0;
             }
@@ -61,7 +61,7 @@ void Game::displayDeadBlack()
     int j = 0;
     int k = 0;
     for(size_t i = 0,n = noirMort.size(); i<n; i++) {
-        if(j == 4){
+        if(j == 3){
             k++;
             j = 0;
         }

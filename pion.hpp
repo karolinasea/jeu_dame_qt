@@ -26,8 +26,8 @@ public:
     bool getIsPlaced() ;
     void setIsPlaced(bool value);
 
-    QList <Boite *> movelocation();
-
+    QList <Boite *> getLocation();
+    QList <Boite *> getEnnemis();
     void decolor();
 
     bool boxSetting(Boite *box);
@@ -36,6 +36,7 @@ public:
     Boite *currentBox;
     Couleur side;
     bool isPlaced;
+    QList <Boite *> boitePionEnnemi;
     QList <Boite *> location;
 
 

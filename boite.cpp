@@ -35,12 +35,18 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             if(this->getPionCouleur() == game->pieceToMove->getSide())
                 return;
             //pièce à manger on vérifie
-            QList <Boite *> movLoc = game->pieceToMove->movelocation();
+            QList <Boite *> movLoc = game->pieceToMove->getLocation();
+
+            //pièce ou ya les ennemis à enlever
+            QList <Boite *> ennemisLoc = game->pieceToMove->getEnnemis();
             //TO make sure the selected box is in move zone
-            int check = 0;
-            for(unsigned int i = 0, n = movLoc.size(); i < n;i++) {
+            char check = 0;
+            char i=0;
+            for(char n = movLoc.size(); i < n;i++) {
+
                 if(movLoc[i] == this) {
                     check++;
+                    break;
 
                 }
             }
@@ -50,13 +56,24 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             //change the color back to normal
              game->pieceToMove->decolor();
 
-             //this is to eat or consume the enemy present inn the movable region
-            if(this->getHasPion()){
+             //this is to eat or consume the enemy present in the movable region
+            /*if(this->getHasPion()){
                 this->currentPiece->setIsPlaced(false);
                 this->currentPiece->setCurrentBoite(nullptr);
                 game->placeInDeadPlace(this->currentPiece);
 
-            }
+            }*/
+
+             qDebug() << "on regarde a l'indice "<<(int)i<<" et locEnnemi a une taille de "<<ennemisLoc.size();
+             //i--;
+             if (ennemisLoc[i]){ //si ya un ennemi a enlever
+             ennemisLoc[i]->currentPiece->setIsPlaced(false);
+             ennemisLoc[i]->currentPiece->setCurrentBoite(nullptr);
+             game->placeInDeadPlace(ennemisLoc[i]->currentPiece);
+             ennemisLoc[i]->setHasPion(false);
+             ennemisLoc[i]->currentPiece = nullptr;
+             }
+
             //changing the new stat and resetting the previous left region
             game->pieceToMove->getCurrentBoite()->setHasPion(false);
             game->pieceToMove->getCurrentBoite()->currentPiece = nullptr;

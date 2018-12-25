@@ -15,6 +15,10 @@ Pion::Pion (Couleur team,QGraphicsItem *parent) : QGraphicsPixmapItem(parent), s
 
 void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    //if it is already consumed or not the respective color's turn
+    if((!getIsPlaced() )|| ( (currentBox->game->getTurn() != this->getSide())&& (!currentBox->game->pieceToMove)) )
+        return;
+
     //Deselect
     if(this == currentBox->game->pieceToMove){
         currentBox->game->pieceToMove->getCurrentBoite()->resetOriginalColor();
@@ -22,9 +26,7 @@ void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
         currentBox->game->pieceToMove = nullptr;
        return;
     }
-    //if it is already consumed or not the respective color's turn
-    if((!getIsPlaced() )|| ( (currentBox->game->getTurn() != this->getSide())&& (!currentBox->game->pieceToMove)) )
-        return;
+
     //selecting
     if(!currentBox->game->pieceToMove){
 
@@ -44,40 +46,93 @@ void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Pion::moves()
 {
     location.clear();
+    boitePionEnnemi.clear();
 
     int row = this->getCurrentBoite()->rowLoc;
-
+    char taille=currentBox->game->nbCases;
     int col = this->getCurrentBoite()->colLoc;
+    qDebug()<<row<<" "<<col;
     if(this->getSide() == Couleur::Blanc)  {
-        if(col > 0 && row > 0 && currentBox->game->tab_damier[(row-1)*12+col-1]->getPionCouleur() == Couleur::Noir) {  //gauche
-            location.append(currentBox->game->tab_damier[(row-1)*12+col-1]);
+        if(col > 1 && row > 1 && currentBox->game->tab_damier[(row-1)*taille+col-1]->getPionCouleur() == Couleur::Noir) {  // qqch a manger a gauche ?
+            if(!currentBox->game->tab_damier[(row-2)*taille+col-2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+            location.append(currentBox->game->tab_damier[(row-2)*taille+col-2]);
+            boitePionEnnemi.append(currentBox->game->tab_damier[(row-1)*taille+col-1]);
             boxSetting(location.last());
+            }
         }
-        if(col < currentBox->game->nbCases-1 && row > 0 && currentBox->game->tab_damier[(row-1)*12+col+1]->getPionCouleur() == Couleur::Noir) { //droite
-            location.append(currentBox->game->tab_damier[(row-1)*12+col+1]);
+        if(col < taille-2 && row > 1 && currentBox->game->tab_damier[(row-1)*taille+col+1]->getPionCouleur() == Couleur::Noir) { //qqch a manger a droite ?
+            if(!currentBox->game->tab_damier[(row-2)*taille+col+2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+            location.append(currentBox->game->tab_damier[(row-2)*taille+col+2]);
+            boitePionEnnemi.append(currentBox->game->tab_damier[(row-1)*taille+col+1]);
             boxSetting(location.last());
+            }
         }
-        if(row>0 && (!currentBox->game->tab_damier[(row-1)*12+col]->getHasPion())) {
-            location.append(currentBox->game->tab_damier[(row-1)*12+col]);
+        if(row>0 && col < taille-1 && (!currentBox->game->tab_damier[(row-1)*taille+col+1]->getHasPion())) { //droite
+            location.append(currentBox->game->tab_damier[(row-1)*taille+col+1]);
+            boitePionEnnemi.append(nullptr);
             boxSetting(location.last());
 
+        }
+        if(col>0 && row >0 && (!currentBox->game->tab_damier[(row-1)*taille+col-1]->getHasPion())) { // gauche
+            location.append(currentBox->game->tab_damier[(row-1)*taille+col-1]);
+            boitePionEnnemi.append(nullptr);
+            boxSetting(location.last());
+
+        }
+        if(col > 1 && row < taille-2 && currentBox->game->tab_damier[(row+1)*taille+col-1]->getPionCouleur() == Couleur::Noir) {  // qqch a manger a gauche arriere ?
+            if(!currentBox->game->tab_damier[(row+2)*taille+col-2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+            location.append(currentBox->game->tab_damier[(row+2)*taille+col-2]);
+            boitePionEnnemi.append(currentBox->game->tab_damier[(row+1)*taille+col-1]);
+            boxSetting(location.last());
+            }
+        }
+        if(col <taille-2 && row < taille-2 && currentBox->game->tab_damier[(row+1)*taille+col+1]->getPionCouleur() == Couleur::Noir) {  // qqch a manger a droite arriere ?
+            if(!currentBox->game->tab_damier[(row+2)*taille+col+2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+            location.append(currentBox->game->tab_damier[(row+2)*taille+col+2]);
+            boitePionEnnemi.append(currentBox->game->tab_damier[(row+1)*taille+col+1]);
+            boxSetting(location.last());
+            }
         }
 
     }
     else{
-        if(col > 0 && row < currentBox->game->nbCases-1 && currentBox->game->tab_damier[(row+1)*12+col-1]->getPionCouleur() == Couleur::Blanc) {//left
-            location.append(currentBox->game->tab_damier[(row+1)*12+col-1]);
+        if(col > 1 && row < taille-2 && currentBox->game->tab_damier[(row+1)*taille+col-1]->getPionCouleur() == Couleur::Blanc) {// qqch a manger a gauche ?
+            if(!currentBox->game->tab_damier[(row+2)*taille+col-2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+            location.append(currentBox->game->tab_damier[(row+2)*taille+col-2]);
+            boitePionEnnemi.append(currentBox->game->tab_damier[(row+1)*taille+col-1]);
+            boxSetting(location.last());
+            }
+        }
+        if(col <taille-2 && row < taille-2 && currentBox->game->tab_damier[(row+1)*taille+col+1]->getPionCouleur() == Couleur::Blanc) {// qqch a manger a droite ?
+            if(!currentBox->game->tab_damier[(row+2)*taille+col+2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+                boitePionEnnemi.append(currentBox->game->tab_damier[(row+1)*taille+col+1]);
+            location.append(currentBox->game->tab_damier[(row+2)*taille+col+2]);
+            boxSetting(location.last());
+            }
+        }
+        if(col > 1 && row >1 && currentBox->game->tab_damier[(row-1)*taille+col-1]->getPionCouleur() == Couleur::Blanc) {// qqch a manger a gauche arriere ?
+            if(!currentBox->game->tab_damier[(row-2)*taille+col-2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+            location.append(currentBox->game->tab_damier[(row-2)*taille+col-2]);
+            boitePionEnnemi.append(currentBox->game->tab_damier[(row-1)*taille+col-1]);
+            boxSetting(location.last());
+            }
+        }
+        if(col <taille-2 && row >1 && currentBox->game->tab_damier[(row-1)*taille+col+1]->getPionCouleur() == Couleur::Blanc) {// qqch a manger a droite arriere ?
+            if(!currentBox->game->tab_damier[(row-2)*taille+col+2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
+                boitePionEnnemi.append(currentBox->game->tab_damier[(row-1)*taille+col+1]);
+            location.append(currentBox->game->tab_damier[(row-2)*taille+col+2]);
+            boxSetting(location.last());
+            }
+        }
+        if(row< taille-1 && col>0 && (!currentBox->game->tab_damier[(row+1)*taille+col-1]->getHasPion())) { //gauche
+            location.append(currentBox->game->tab_damier[(row+1)*taille+col-1]);
+            boitePionEnnemi.append(nullptr);
             boxSetting(location.last());
         }
-        if(col < currentBox->game->nbCases-1 && row <  currentBox->game->nbCases-1 && currentBox->game->tab_damier[(row+1)*12+col+1]->getPionCouleur() == Couleur::Blanc) {//right
-            location.append(currentBox->game->tab_damier[(row+1)*12+col+1]);
+        if(row< taille-1 && col<taille-1 && (!currentBox->game->tab_damier[(row+1)*taille+col+1]->getHasPion())) { //droite
+            location.append(currentBox->game->tab_damier[(row+1)*taille+col+1]);
+            boitePionEnnemi.append(nullptr);
             boxSetting(location.last());
-        }
-        if(row< currentBox->game->nbCases-1 && (!currentBox->game->tab_damier[(row+1)*12+col]->getHasPion())) {
-            location.append(currentBox->game->tab_damier[(row+1)*12+col]);
-            boxSetting(location.last());
-
-
         }
 
     }
@@ -115,9 +170,13 @@ void Pion::setIsPlaced(bool value)
     isPlaced = value;
 
 }
-QList<Boite *> Pion::movelocation()
+QList<Boite *> Pion::getLocation()
 {
     return location;
+}
+QList<Boite *> Pion::getEnnemis()
+{
+    return boitePionEnnemi;
 }
 void Pion::decolor()
 {
