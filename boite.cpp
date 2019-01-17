@@ -22,7 +22,7 @@ Boite::~Boite()
 void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
       //  qDebug() << getpionColor();
-        //Deselecting counter part of pion
+        //Deselecting  pion
         if(currentPiece == game->pieceToMove && currentPiece){
 
             currentPiece->mousePressEvent(event);
@@ -57,15 +57,6 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
              game->pieceToMove->decolor();
 
              //this is to eat or consume the enemy present in the movable region
-            /*if(this->getHasPion()){
-                this->currentPiece->setIsPlaced(false);
-                this->currentPiece->setCurrentBoite(nullptr);
-                game->placeInDeadPlace(this->currentPiece);
-
-            }*/
-
-             qDebug() << "on regarde a l'indice "<<(int)i<<" et locEnnemi a une taille de "<<ennemisLoc.size();
-             //i--;
              if (ennemisLoc[i]){ //si ya un ennemi a enlever
              ennemisLoc[i]->currentPiece->setIsPlaced(false);
              ennemisLoc[i]->currentPiece->setCurrentBoite(nullptr);
@@ -86,10 +77,10 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             //checkForCheck();
         }
         //Selecting couterpart of the pion
-        /*else if(this->getHasPion())
+        else if(this->getHasPion())
         {
             this->currentPiece->mousePressEvent(event);
-        }*/
+        }
 }
 
 void Boite::setCouleur(QColor color)

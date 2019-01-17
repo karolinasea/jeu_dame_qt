@@ -15,7 +15,7 @@ Pion::Pion (Couleur team,QGraphicsItem *parent) : QGraphicsPixmapItem(parent), s
 
 void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    //if it is already consumed or not the respective color's turn
+    //si deja mangee ou pas le tour de la couleur
     if((!getIsPlaced() )|| ( (currentBox->game->getTurn() != this->getSide())&& (!currentBox->game->pieceToMove)) )
         return;
 
@@ -36,6 +36,7 @@ void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     //Consuming counterPart of the boite
     else if(this->getSide() != currentBox->game->pieceToMove->getSide()){
+        qDebug()<<"oui ";
         this->getCurrentBoite()->mousePressEvent(event);
     }
 
@@ -51,7 +52,7 @@ void Pion::moves()
     int row = this->getCurrentBoite()->rowLoc;
     char taille=currentBox->game->nbCases;
     int col = this->getCurrentBoite()->colLoc;
-    qDebug()<<row<<" "<<col;
+    //qDebug()<<row<<" "<<col;
     if(this->getSide() == Couleur::Blanc)  {
         if(col > 1 && row > 1 && currentBox->game->tab_damier[(row-1)*taille+col-1]->getPionCouleur() == Couleur::Noir) {  // qqch a manger a gauche ?
             if(!currentBox->game->tab_damier[(row-2)*taille+col-2]->getHasPion()) { // on verifie ya pas de pion sur point de chute
