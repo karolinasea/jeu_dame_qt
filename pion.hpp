@@ -4,8 +4,9 @@
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 #include "enumCouleur.hpp"
-#include "boite.hpp"
-
+//#include "listecoups.hpp"
+#include "generateur.hpp"
+class generateur;
 class Boite;
 class Pion : public QGraphicsPixmapItem
 {
@@ -13,6 +14,7 @@ public:
     Pion(Couleur team, QGraphicsItem *parent = nullptr);
 
     void moves();
+    void conversionDame();
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void setCurrentBoite(Boite *box);
@@ -31,13 +33,15 @@ public:
     void decolor();
 
     bool boxSetting(Boite *box);
-
+generateur *gene;
  private:
     Boite *currentBox;
     Couleur side;
     bool isPlaced;
+    bool isDame;
     QList <Boite *> boitePionEnnemi;
     QList <Boite *> location;
+
 
 
 };

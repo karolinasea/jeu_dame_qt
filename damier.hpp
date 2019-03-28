@@ -2,9 +2,10 @@
 #define DAMIER_H
 
 #include <QGraphicsRectItem>
-#include "pion.hpp"
-#include "game.hpp"
+//#include "pion.hpp"
 
+#include "generateur.hpp"
+#include "game.hpp"
 class Game;
 class Damier
 {
@@ -21,11 +22,12 @@ public:
 
     void addPion();
     void reset();
-private:
+private:    
     Game *game;
     int param;
     QList <Pion *> white;
     QList <Pion *> black;
+
 
 
 

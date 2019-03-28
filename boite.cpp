@@ -1,6 +1,7 @@
 #include "boite.hpp"
 #include <QDebug>
 #include "game.hpp"
+#include <qpropertyanimation.h>
 
 //extern Game *game;
 Boite::Boite(Game *g, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g)
@@ -29,27 +30,104 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             return;
         }
 
-        //if selected
+        //si un pion est deja selectionné, il a surement cliqué sur une case d'arrivée
         if(game->pieceToMove){
             //if same team
             if(this->getPionCouleur() == game->pieceToMove->getSide())
                 return;
             //pièce à manger on vérifie
-            QList <Boite *> movLoc = game->pieceToMove->getLocation();
+            QVector <Boite *> movLoc_a;
+                    QVector <Boite *> movLoc_b;
+                    QVector <Boite *> movLoc_c;
+                    QVector <Boite *> movLoc_d;
+            movLoc_a.append(game->pieceToMove->gene->liste_avant_g);
+            movLoc_b.append(game->pieceToMove->gene->liste_avant_d);
+            movLoc_c.append(game->pieceToMove->gene->liste_arr_d);
+            movLoc_d.append(game->pieceToMove->gene->liste_arr_g);
+            char a,b,c,d,t1,t2,maxi,i=0,check=0;
+            a=movLoc_a.size();
+            b=movLoc_b.size();
+            c=movLoc_c.size();
+            d=movLoc_d.size();
+
+
+            QPropertyAnimation animation(this->currentPiece, "geometry");
+            animation.setDuration(10000);
+            animation.setStartValue(QRect(0, 0, 100, 30));
+            animation.setEndValue(QRect(250, 250, 100, 30));
+
+            animation.start();
+
+            t1 = (a > b? a : b);
+                t2 = (c > d? c : d);
+                maxi = (t1 > t2? t1 : t2);
+
+                if (!movLoc_a.isEmpty()){
+                    if (this==movLoc_a.first()&&game->pieceToMove->gene->liste_avant_g_enn.isEmpty())
+                        check=1;
+                  }
+                if (!movLoc_b.isEmpty()){
+                    if (this==movLoc_b.first()&&game->pieceToMove->gene->liste_avant_d_enn.isEmpty())
+                        check=1;
+                   }
+                if (maxi==a){
+                    if (this==movLoc_a.last()){
+                        for(int n = game->pieceToMove->gene->liste_avant_g_enn.size(); i < n;i++) {
+                        game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece->setIsPlaced(false);
+                        game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece->setCurrentBoite(nullptr);
+                        game->placeInDeadPlace(game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece);
+                       game->pieceToMove->gene->liste_avant_g_enn[i]->setHasPion(false);
+                        game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece = nullptr;
+                        }check=1;
+                    }
+                }
+                if (maxi==b){
+                    if (this==movLoc_b.last()){
+                        for(int n = game->pieceToMove->gene->liste_avant_d_enn.size(); i < n;i++) {
+                        game->pieceToMove->gene->liste_avant_d_enn[i]->currentPiece->setIsPlaced(false);
+                        game->pieceToMove->gene->liste_avant_d_enn[i]->currentPiece->setCurrentBoite(nullptr);
+                        game->placeInDeadPlace(game->pieceToMove->gene->liste_avant_d_enn[i]->currentPiece);
+                       game->pieceToMove->gene->liste_avant_d_enn[i]->setHasPion(false);
+                        game->pieceToMove->gene->liste_avant_d_enn[i]->currentPiece = nullptr;
+                        }check=1;
+                    }
+                }
+                if (maxi==c){
+                    if (this==movLoc_c.last()){
+                        for(int n = game->pieceToMove->gene->liste_arr_d_enn.size(); i < n;i++) {
+                        game->pieceToMove->gene->liste_arr_d_enn[i]->currentPiece->setIsPlaced(false);
+                        game->pieceToMove->gene->liste_arr_d_enn[i]->currentPiece->setCurrentBoite(nullptr);
+                        game->placeInDeadPlace(game->pieceToMove->gene->liste_arr_d_enn[i]->currentPiece);
+                       game->pieceToMove->gene->liste_arr_d_enn[i]->setHasPion(false);
+                        game->pieceToMove->gene->liste_arr_d_enn[i]->currentPiece = nullptr;
+                        }check=1;
+                    }
+                }
+                if (maxi==d){
+                    if (this==movLoc_d.last()){
+                        for(int n = game->pieceToMove->gene->liste_arr_g_enn.size(); i < n;i++) {
+                        game->pieceToMove->gene->liste_arr_g_enn[i]->currentPiece->setIsPlaced(false);
+                        game->pieceToMove->gene->liste_arr_g_enn[i]->currentPiece->setCurrentBoite(nullptr);
+                        game->placeInDeadPlace(game->pieceToMove->gene->liste_arr_g_enn[i]->currentPiece);
+                       game->pieceToMove->gene->liste_arr_g_enn[i]->setHasPion(false);
+                        game->pieceToMove->gene->liste_arr_g_enn[i]->currentPiece = nullptr;
+                        }check=1;
+                    }
+                }
 
             //pièce ou ya les ennemis à enlever
             QList <Boite *> ennemisLoc = game->pieceToMove->getEnnemis();
             //TO make sure the selected box is in move zone
-            char check = 0;
-            char i=0;
-            for(char n = movLoc.size(); i < n;i++) {
+            //char check = 0;
+            //int i=0;
+            /*for(int n = movLoc.size(); i < n;i++) {
 
                 if(movLoc[i] == this) {
                     check++;
                     break;
 
                 }
-            }
+            }*/
             // if not prsent return
             if(check == 0)
                 return;
@@ -57,13 +135,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
              game->pieceToMove->decolor();
 
              //this is to eat or consume the enemy present in the movable region
-             if (ennemisLoc[i]){ //si ya un ennemi a enlever
-             ennemisLoc[i]->currentPiece->setIsPlaced(false);
-             ennemisLoc[i]->currentPiece->setCurrentBoite(nullptr);
-             game->placeInDeadPlace(ennemisLoc[i]->currentPiece);
-             ennemisLoc[i]->setHasPion(false);
-             ennemisLoc[i]->currentPiece = nullptr;
-             }
+
 
             //changing the new stat and resetting the previous left region
             game->pieceToMove->getCurrentBoite()->setHasPion(false);

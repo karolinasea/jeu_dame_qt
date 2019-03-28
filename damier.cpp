@@ -1,7 +1,7 @@
 #include "damier.hpp"
-#include "boite.hpp"
+//#include "boite.hpp"
 
-#include "pion.hpp"
+//#include "pion.hpp"
 
 //extern Game *game;
 Damier::Damier(Game *g, int param):game(g), param(param)

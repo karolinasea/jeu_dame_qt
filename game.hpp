@@ -7,7 +7,7 @@
 
 #include "damier.hpp"
 #include "bouton.hpp"
-#include "pion.hpp"
+//#include "generateur.hpp"
 class Damier;
 class Game:public QGraphicsView
 {
@@ -67,6 +67,8 @@ private:
     Bouton * size12;
 
     QGraphicsTextItem * affTour;
+
+
 
 
 };

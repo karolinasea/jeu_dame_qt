@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     damier.cpp \
     boite.cpp \
     bouton.cpp \
-    pion.cpp
+    pion.cpp \
+    listecoups.cpp \
+    generateur.cpp
 
 HEADERS  += \
     game.hpp \
@@ -25,7 +27,9 @@ HEADERS  += \
     damier.hpp \
     boite.hpp \
     bouton.hpp \
-    pion.hpp
+    pion.hpp \
+    listecoups.hpp \
+    generateur.hpp
 
 FORMS    +=
 

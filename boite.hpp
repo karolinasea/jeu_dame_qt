@@ -7,7 +7,7 @@
 
 
 #include "enumCouleur.hpp"
-#include "pion.hpp"
+//#include "generateur.hpp"
 
 
 class Pion;
@@ -44,6 +44,7 @@ public:
     Pion * currentPiece;
 
     Game *game;  //public pour pion
+
 
 private:    
 

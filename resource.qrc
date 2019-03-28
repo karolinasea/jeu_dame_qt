@@ -2,5 +2,7 @@
     <qresource prefix="/images">
         <file>pawn.png</file>
         <file>pawn1.png</file>
+        <file>dame_blanche.png</file>
+        <file>dame_noire.png</file>
     </qresource>
 </RCC>
