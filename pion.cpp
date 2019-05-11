@@ -3,7 +3,6 @@
 #include <QDebug>
 #include <typeinfo>
 
-
 Pion::Pion (Couleur team,QGraphicsItem *parent) : QGraphicsPixmapItem(parent), side(team), isPlaced(true), isDame(false)
 {
     if(side == Couleur::Blanc)
@@ -56,8 +55,8 @@ void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Pion::moves()
 {
 
-    location.clear();
-    boitePionEnnemi.clear();
+    //location.clear();
+    //boitePionEnnemi.clear();
 
     int row = this->getCurrentBoite()->rowLoc;
     char taille=currentBox->game->nbCases;
@@ -67,6 +66,7 @@ void Pion::moves()
     gene->remplirListes();
 
     return ;
+
 
     if(this->getSide() == Couleur::Blanc)  {
         if(col > 1 && row > 1 && currentBox->game->tab_damier[(row-1)*taille+col-1]->getPionCouleur() == Couleur::Noir) {  // qqch a manger a gauche ?

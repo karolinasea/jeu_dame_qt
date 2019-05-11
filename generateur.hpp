@@ -12,10 +12,10 @@ public:
     generateur(char taille,char row, char col,QVector<Boite *> position, Couleur side );
     void remplirListes();
     char chemPlusCourt(char i, char row, char col, char nope);
-void boxSetting(Boite *box);
-void decolor();
+    void boxSetting(Boite *box);
+    void decolor();
 
-Couleur side;
+
     QVector<Boite *> liste_avant_g;
     QVector<Boite *> liste_avant_d;
     QVector<Boite *> liste_arr_g;
@@ -28,6 +28,7 @@ Couleur side;
     char row;
     char col;
     QVector<Boite *> position;
+    Couleur side;
     QVector<Boite *> liste_enn;
     QVector<Boite *> liste;
 };

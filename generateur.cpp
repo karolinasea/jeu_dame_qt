@@ -9,15 +9,14 @@ void generateur::decolor(){  // UTILE  ??
          position[i]->resetOriginalColor();
     }
 }
-void generateur::boxSetting(Boite *box)
-{
+void generateur::boxSetting(Boite *box){
         box->setCouleur(Qt::darkRed);
 }
 
 char generateur::chemPlusCourt(char i, char row, char col, char nope){
-    char a=0,b=0,c=0,d=0,t1,t2;
+    char a=0,b=0,c=0,d=0;
     qDebug()<<"dans chem plus court row="<<(int)row<<(int)col<<"i="<<(int)i;
-    if (nope!=1){
+    if (nope!=1){ //nope ==1 veut dire on vient de arr droite, pour pas retourner en arr
     // qqch a manger en avant gauche ?
     if(col > 1 && row < taille-2 && position[(row+1)*taille+col-1]->getPionCouleur() == Couleur::Blanc) {
         if(!position[(row+2)*taille+col-2]->getHasPion()&&!liste.contains(position[(row+2)*taille+col-2])) {// on verifie ya pas de pion sur point de chute

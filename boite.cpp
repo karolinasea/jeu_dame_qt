@@ -37,9 +37,9 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 return;
             //pièce à manger on vérifie
             QVector <Boite *> movLoc_a;
-                    QVector <Boite *> movLoc_b;
-                    QVector <Boite *> movLoc_c;
-                    QVector <Boite *> movLoc_d;
+            QVector <Boite *> movLoc_b;
+            QVector <Boite *> movLoc_c;
+            QVector <Boite *> movLoc_d;
             movLoc_a.append(game->pieceToMove->gene->liste_avant_g);
             movLoc_b.append(game->pieceToMove->gene->liste_avant_d);
             movLoc_c.append(game->pieceToMove->gene->liste_arr_d);
@@ -51,22 +51,22 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             d=movLoc_d.size();
 
 
-            QPropertyAnimation animation(this->currentPiece, "geometry");
+            /*QPropertyAnimation animation(this->currentPiece, "geometry");
             animation.setDuration(10000);
             animation.setStartValue(QRect(0, 0, 100, 30));
             animation.setEndValue(QRect(250, 250, 100, 30));
 
-            animation.start();
+            animation.start();*/
 
             t1 = (a > b? a : b);
                 t2 = (c > d? c : d);
                 maxi = (t1 > t2? t1 : t2);
 
-                if (!movLoc_a.isEmpty()){
+                if (!movLoc_a.isEmpty()&&maxi==0){
                     if (this==movLoc_a.first()&&game->pieceToMove->gene->liste_avant_g_enn.isEmpty())
                         check=1;
                   }
-                if (!movLoc_b.isEmpty()){
+                if (!movLoc_b.isEmpty()&&maxi==0){
                     if (this==movLoc_b.first()&&game->pieceToMove->gene->liste_avant_d_enn.isEmpty())
                         check=1;
                    }
@@ -116,7 +116,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 }
 
             //pièce ou ya les ennemis à enlever
-            QList <Boite *> ennemisLoc = game->pieceToMove->getEnnemis();
+           // QList <Boite *> ennemisLoc = game->pieceToMove->getEnnemis();
             //TO make sure the selected box is in move zone
             //char check = 0;
             //int i=0;
@@ -140,13 +140,15 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             //changing the new stat and resetting the previous left region
             game->pieceToMove->getCurrentBoite()->setHasPion(false);
             game->pieceToMove->getCurrentBoite()->currentPiece = nullptr;
-            game->pieceToMove->getCurrentBoite()->resetOriginalColor();
+            //game->pieceToMove->getCurrentBoite()->resetOriginalColor();
             placePiece(game->pieceToMove);
+
 
             game->pieceToMove = nullptr;
             //changing turn
             game->changeTurn();
             //checkForCheck();
+
         }
         //Selecting couterpart of the pion
         else if(this->getHasPion())
