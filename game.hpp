@@ -61,12 +61,13 @@ private:
     QGraphicsPixmapItem *p;
     QGraphicsPixmapItem *p1;
     Bouton * playbouton;
-    Bouton * playComputerbouton;
+    //Bouton * playComputerbouton;
     Bouton * size8;
     Bouton * size10;
-    Bouton * size12;
+    //Bouton * size12;
 
     QGraphicsTextItem * affTour;
+    QGraphicsTextItem * title;
 
 
 
