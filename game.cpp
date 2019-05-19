@@ -7,7 +7,7 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
 
     //Making the Scene
     gameScene = new QGraphicsScene();
-    gameScene->setSceneRect(0,0,1400,900);
+    gameScene->setSceneRect(0,0,1400, 1030);
 
     //Making the view
     setFixedSize(1400,900);
@@ -28,6 +28,15 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
     affTour->setFont(QFont("",18));
     affTour->setPlainText("Tour : Blanc");
 
+    //display title in the main menu and the size menu
+    title = new QGraphicsTextItem();
+    int xPos = 545;
+    int yPos = 150;
+    title->setPos(xPos,yPos);
+    title->setDefaultTextColor(Qt::white);
+    title->setFont(QFont("", 50));
+    title->setPlainText("Jeu de Dames");
+    
     //display Check
     check = new QGraphicsTextItem();
     check->setPos(width()/2-100,860);
@@ -131,10 +140,11 @@ void Game::start(int param)
 {
 
         removeFromScene(p);
-        removeFromScene(p1);
+        //removeFromScene(p1);
         removeFromScene(size8);
         removeFromScene(size10);
-        removeFromScene(size12);
+        //removeFromScene(size12);
+        removeFromScene(title);
 
         drawDeadHolder(0,0,Qt::lightGray);
         drawDeadHolder(1100,0,Qt::lightGray);
@@ -142,11 +152,15 @@ void Game::start(int param)
 
         nbCases=param;
         if (param==8)
+        {
             largeurBoite = 100;
+        }
         else if (param==10)
+        {
             largeurBoite=80;
-        else if (param==12)
-            largeurBoite=67;
+        }
+        /*else if (param==12)
+            largeurBoite=67;*/
 
 
         leDamier = new Damier(this, param);
@@ -185,7 +199,7 @@ void Game::drawDeadHolder(int x, int y,QColor color)
 void Game::displaySizeMenu()
 {
     removeFromScene(playbouton);
-    removeFromScene(playComputerbouton);
+    //removeFromScene(playComputerbouton);
 
     size8 = new Bouton("64 cases 8x8");
     int pxPos = width()/2 - size8->boundingRect().width()/2;
@@ -196,21 +210,21 @@ void Game::displaySizeMenu()
     size10->setPos(pxPos,400);
     addToScene(size10);
 
-    size12 = new Bouton("144 cases 12x12");
+    /*size12 = new Bouton("144 cases 12x12");
     size12->setPos(pxPos,500);
-    addToScene(size12);
+    addToScene(size12);*/
 
 
     connect(size8,  &Bouton::clicked, this, [this]{ start(8); });
     connect(size10,  &Bouton::clicked, this, [this]{ start(10); });
-    connect(size12, &Bouton::clicked, this, [this]{ start(12); });
+    //connect(size12, &Bouton::clicked, this, [this]{ start(12); });
 
 
 }
 
 void Game::displayMainMenu()
 {
-    p = new QGraphicsPixmapItem();
+    /*p = new QGraphicsPixmapItem();
     p->setPixmap(QPixmap(":/images/pawn.png"));
     p->setPos(420,170);
     addToScene(p);
@@ -219,18 +233,8 @@ void Game::displayMainMenu()
     p1 = new QGraphicsPixmapItem();
     p1->setPixmap(QPixmap(":/images/pawn1.png"));
     p1->setPos(920,170);
-    addToScene(p1);
+    addToScene(p1);*/
 
-
-    //Create the title
-    /*QGraphicsTextItem *titleText = new QGraphicsTextItem("Checkers");
-    QFont titleFont("arial" , 60);
-    titleText->setFont( titleFont);
-    int xPos = width()/2 - titleText->boundingRect().width()/2;
-    int yPos = 150;
-    titleText->setPos(xPos,yPos);
-    addToScene(titleText);
-    listG.append(titleText);*/
 
     //create bouton
     playbouton = new Bouton("Play 2 v 2");
@@ -241,12 +245,12 @@ void Game::displayMainMenu()
     addToScene(playbouton);
 
 
-    playComputerbouton = new Bouton("Play vs Computer");
+    /*playComputerbouton = new Bouton("Play vs Computer");
     int qxPos = width()/2 - playComputerbouton->boundingRect().width()/2;
     int qyPos = 375;
     playComputerbouton->setPos(qxPos,qyPos);
     //connect(playComputerbouton, SIGNAL(clicked()),this,SLOT(close()));
-    addToScene(playComputerbouton);
+    addToScene(playComputerbouton);*/
 
 }
 
