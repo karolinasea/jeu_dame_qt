@@ -4,10 +4,11 @@
 #include <QGraphicsScene>
 #include <QSignalMapper>
 #include <QVector>
+#include <QPushButton>
+#include "damier.h"
+#include "pion.h"
+#include "bouton.h"
 
-#include "damier.hpp"
-#include "bouton.hpp"
-//#include "generateur.hpp"
 class Damier;
 class Game:public QGraphicsView
 {
@@ -15,6 +16,7 @@ class Game:public QGraphicsView
 public:
     //Constructors
     Game(QWidget *parent = nullptr);
+    Game(qreal x, qreal y, qreal width, qreal height, QObject *parent = nullptr);
 
     //public Methods
     void drawDeadHolder(int x, int y, QColor color);
@@ -29,7 +31,8 @@ public:
     //getters/setters
     Pion *pieceToMove;
 
-    Couleur getTurn() ;
+    Couleur getTurn();
+    int getNbCases();
     void setTurn( Couleur value);
     void changeTurn();
 
@@ -38,39 +41,41 @@ public:
     char nbCases;
 
     //Boite *collection[144];
-    QVector<Boite *> tab_damier; //vecteur c mieux,au moins 64 cases réservées (damier 8*8) dans le constructeur
+    QVector<Boite *> tab_damier; //vecteur c mieux, au moins 64 cases réservées (damier 8*8) dans le constructeur
 
     QGraphicsTextItem *check;
 
     QList <Pion *> alivePiece;
-    void displayMainMenu();
 
+    void displayMainMenu();
 
     void gameOver();
     void removeAll();
+
 public slots:
     void displaySizeMenu();
     void start(int param);
+    void resetDamier();
+    void restart(QGraphicsScene **object);
+
 private:
-        QGraphicsScene *gameScene;
+    QGraphicsScene *gameScene;
     QList <Pion *> blancMort;
     QList <Pion *> noirMort;
     QGraphicsRectItem * cimetiere;
     Couleur tour;
     Damier *leDamier;
-    QGraphicsPixmapItem *p;
-    QGraphicsPixmapItem *p1;
+    //QGraphicsPixmapItem *p;
+    //QGraphicsPixmapItem *p1;
     Bouton * playbouton;
-    //Bouton * playComputerbouton;
+    Bouton * playComputerbouton;
     Bouton * size8;
     Bouton * size10;
     //Bouton * size12;
+    Bouton * retour;
 
     QGraphicsTextItem * affTour;
     QGraphicsTextItem * title;
-
-
-
 
 };
 
