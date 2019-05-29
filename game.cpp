@@ -1,16 +1,22 @@
-#include "game.hpp"
-
+#include "game.h"
+#include "damier.h"
+#include "pion.h"
 #include <QPixmap>
 #include <QDebug>
+
 Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
 {
+    /*the QGraphicsView class provides a widget for displaying the contents of a QGraphicsScene*/
 
     //Making the Scene
     gameScene = new QGraphicsScene();
-    gameScene->setSceneRect(0,0,1400, 1030);
+    gameScene->setSceneRect(0, 0, 1400, 1030); //scrollable area
+    /* setSceneRect = The scene rectangle defines the extent of the scene. It is primarily used by
+    QGraphicsView to determine the view's default scrollable area, and by QGraphicsScene
+    to manage item indexing.*/
 
     //Making the view
-    setFixedSize(1400,900);
+    setFixedSize(1400, 900);
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setScene(gameScene);
@@ -18,14 +24,15 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::black);
     setBackgroundBrush(brush);
-    pieceToMove = nullptr;
 
-    //display turn
+    pieceToMove = nullptr; //pieceToMove est un attribut de Game de type Pion
+
+    //display turn on the top middle of the screen
     affTour = new QGraphicsTextItem();
-    affTour->setPos(width()/2-100,10);
+    affTour->setPos(width()/2-100, 10);
     affTour->setZValue(1);
     affTour->setDefaultTextColor(Qt::white);
-    affTour->setFont(QFont("",18));
+    affTour->setFont(QFont("", 20));
     affTour->setPlainText("Tour : Blanc");
 
     //display title in the main menu and the size menu
@@ -36,19 +43,80 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
     title->setDefaultTextColor(Qt::white);
     title->setFont(QFont("", 50));
     title->setPlainText("Jeu de Dames");
-    
+
     //display Check
+    /*The QGraphicsTextItem class provides a text item that you can add to a QGraphicsScene to display formatted text.*/
     check = new QGraphicsTextItem();
-    check->setPos(width()/2-100,860);
+    check->setPos(width()/2+20,10);
+    /*Sets the Z-value of the item to z. The Z value decides the stacking order of sibling (neighboring) items.
+     A sibling item of high Z value will always be drawn on top of another sibling item with a lower Z value.*/
     check->setZValue(4);
     check->setDefaultTextColor(Qt::red);
-    check->setFont(QFont("",18));
+    check->setFont(QFont("", 20));
     check->setPlainText("CHECK!");
     check->setVisible(false);
     setTurn(Couleur::Blanc);
 
+    /*retour = new QGraphicsTextItem();
+    retour->setPos(345, 10);
+    retour->setPlainText("Retour");
+    retour->setDefaultTextColor(Qt::white);*/
+
+    retour = new Bouton("Reinitialiser");
+    retour->setPos(300, 0);
+    //retour->setRect(0, 0, 150, 30);
+
+    QObject::connect(retour, SIGNAL(clicked()) , this, SLOT(resetDamier()));
+
+    //QObject::connect(retour, SIGNAL(clicked()), gameScene, SLOT(clear()), Qt::QueuedConnection);
+
+
 }
 
+void Game::resetDamier()
+{
+    qDebug()<<"resetDamier";
+
+    //gameScene->clear();
+    //gameScene->clear();
+    //restart(&gameScene);
+    alivePiece.clear();
+    blancMort.clear();
+    noirMort.clear();
+    leDamier->reset();
+
+    removeAll();
+    displayMainMenu();
+
+    //leDamier->reset();
+
+   /* int r, c;
+    for(r=0; r<nbCases; r++)
+    {
+        for(c=0; c<nbCases; c++)
+        {
+            if(tab_damier[r*nbCases+c])
+            {
+                gameScene->removeItem(tab_damier[r*nbCases+c]);
+            }
+        }
+    }
+    alivePiece.clear();
+    removeAll();
+    displayMainMenu();
+
+
+    /*removeAll();
+    */
+
+}
+
+void Game::restart(QGraphicsScene **object)
+{
+    qDebug()<<"restart";
+    //remove(gameScene);
+    //QGraphicsScene gameScene = new QGraphicsScene();
+}
 
 void Game::displayDeadWhite()
 {
@@ -119,6 +187,11 @@ Couleur Game::getTurn()
     return tour;
 }
 
+int Game::getNbCases()
+{
+    return nbCases;
+}
+
 void Game::setTurn(Couleur value)
 {
     tour = value;
@@ -138,35 +211,35 @@ void Game::changeTurn()
 
 void Game::start(int param)
 {
-
-        removeFromScene(p);
+        nbCases = param;
+        //removeFromScene(p);
         //removeFromScene(p1);
         removeFromScene(size8);
         removeFromScene(size10);
         //removeFromScene(size12);
         removeFromScene(title);
 
+        addToScene(retour);
+
         drawDeadHolder(0,0,Qt::lightGray);
         drawDeadHolder(1100,0,Qt::lightGray);
 
-
-        nbCases=param;
-        if (param==8)
+        if (nbCases==8)
         {
             largeurBoite = 100;
         }
-        else if (param==10)
+        else if (nbCases==10)
         {
             largeurBoite=80;
         }
         /*else if (param==12)
             largeurBoite=67;*/
 
-
-        leDamier = new Damier(this, param);
+        leDamier = new Damier(this, nbCases);
         leDamier->drawBoites(width()/2-400,50);
 
     addToScene(affTour);
+
     QGraphicsTextItem* whitePiece = new QGraphicsTextItem();
     whitePiece->setPos(70,10);
     whitePiece->setZValue(1);
@@ -184,6 +257,10 @@ void Game::start(int param)
     addToScene(blackPiece);
     addToScene(check);
     leDamier->addPion();
+
+    //run generateur de coup here at first or just let select the avt dt avt gauche
+    //gene = new generateur();
+    //gene.remplirListes(nbCases);
 }
 
 void Game::drawDeadHolder(int x, int y,QColor color)
@@ -203,7 +280,7 @@ void Game::displaySizeMenu()
 
     size8 = new Bouton("64 cases 8x8");
     int pxPos = width()/2 - size8->boundingRect().width()/2;
-    size8->setPos(pxPos,300);    
+    size8->setPos(pxPos,300);
     addToScene(size8);
 
     size10 = new Bouton("100 cases 10x10");
@@ -214,36 +291,32 @@ void Game::displaySizeMenu()
     size12->setPos(pxPos,500);
     addToScene(size12);*/
 
-
     connect(size8,  &Bouton::clicked, this, [this]{ start(8); });
     connect(size10,  &Bouton::clicked, this, [this]{ start(10); });
     //connect(size12, &Bouton::clicked, this, [this]{ start(12); });
-
 
 }
 
 void Game::displayMainMenu()
 {
     /*p = new QGraphicsPixmapItem();
-    p->setPixmap(QPixmap(":/images/pawn.png"));
+    p->setPixmap(QPixmap("pawn.png"));
     p->setPos(420,170);
     addToScene(p);
-
-
     p1 = new QGraphicsPixmapItem();
-    p1->setPixmap(QPixmap(":/images/pawn1.png"));
+    p1->setPixmap(QPixmap("pawn1.png"));
     p1->setPos(920,170);
     addToScene(p1);*/
 
+    addToScene(title);
 
     //create bouton
     playbouton = new Bouton("Play 2 v 2");
     int pxPos = width()/2 - playbouton->boundingRect().width()/2;
     int pyPos = 300;
     playbouton->setPos(pxPos,pyPos);
-    connect(playbouton,SIGNAL(clicked()) , this , SLOT(displaySizeMenu()));
+    connect(playbouton, SIGNAL(clicked()) , this, SLOT(displaySizeMenu()));
     addToScene(playbouton);
-
 
     /*playComputerbouton = new Bouton("Play vs Computer");
     int qxPos = width()/2 - playComputerbouton->boundingRect().width()/2;
@@ -251,7 +324,6 @@ void Game::displayMainMenu()
     playComputerbouton->setPos(qxPos,qyPos);
     //connect(playComputerbouton, SIGNAL(clicked()),this,SLOT(close()));
     addToScene(playComputerbouton);*/
-
 }
 
 void Game::gameOver()
@@ -260,15 +332,20 @@ void Game::gameOver()
     setTurn(Couleur::Blanc);
     alivePiece.clear();
     leDamier->reset();
-
 }
 
 
 // pas utilisé
-void Game::removeAll(){
+void Game::removeAll()
+{
     QList<QGraphicsItem*> itemsList = gameScene->items();
-    for(size_t i = 0, n = itemsList.size();i<n;i++) {
+    for(size_t i = 0, n = itemsList.size();i<n;i++)
+    {
         if(itemsList[i]!=check)
           removeFromScene(itemsList[i]);
     }
+    alivePiece.clear();
+    //tab_damier.clear();
+    //leDamier->reset();
 }
+
