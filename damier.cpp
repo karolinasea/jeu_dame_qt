@@ -160,26 +160,110 @@ void Damier::setUpBlack()
 
 void Damier::reset()
 {
-    int k = 0; int h = 0;
-    for(int i = 0; i < 8; i++) {
-        for(int j = 0; j < 8; j++)
+    qDebug()<<"dans reset damier classe Damier";
+
+   qDeleteAll(black);
+   qDeleteAll(white);
+    //qDeleteAll(black.begin(), black.end());
+    //qDeleteAll(white.begin(), white.end());
+
+    int r, c;
+    for(r=0; r<game->nbCases; r++)
+    {
+        qDebug()<<"dans reset damier classe Damier 1";
+        for(c=0; c<game->nbCases; c++)
         {
-            Boite *box =game->tab_damier[i*12+j];
+            qDebug()<<"dans reset damier classe Damier 2";
+            if(game->tab_damier[r*game->nbCases+c]->getHasPion())
+            {
+                qDebug()<<"dans reset damier classe Damier 3";
+                game->removeFromScene(game->tab_damier[r*game->nbCases+c]);
+                game->tab_damier[r*game->nbCases+c] = nullptr;
+            }
+        }
+    }
+qDebug()<<"dans reset damier classe Damier 4";
+    //white.clear();
+    //black.clear();
+
+
+
+    /*int k = 0; int h = 0;
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++)
+            {
+
+                Boite *box =game->tab_damier[i*8+j];
+                box->setHasPion(false);
+                box->setPionCouleur(Couleur::None);
+                box->currentPiece = nullptr;
+                if(i < 2) {
+
+                    box->placePiece(black[k]);
+                    black[k]->setIsPlaced(true);
+                    game->alivePiece.append(black[k++]);
+
+                }
+                if(i > 5) {
+
+                    box->placePiece(white[h]);
+                    white[h]->setIsPlaced(true);
+                    game->alivePiece.append(white[h++]);
+
+                }
+
+            }
+        }*/
+
+
+    /*int k = 0; int h = 0;
+    int r, c;
+    int taille = game->nbCases;
+    qDebug()<<"dans reset damier classe Damier";
+    for(r = 0; r < taille; r++) {
+        for(c = 0; c < taille-1; c++)
+        {
+            qDebug()<<"dans reset damier classe Damier 1";
+            Boite *box =game->tab_damier[r*taille+c];
             box->setHasPion(false);
             box->setPionCouleur(Couleur::None);
             box->currentPiece = nullptr;
-            if(i < 2)
+            if(r < 3)
             {
+                qDebug()<<"dans reset damier classe Damier 2";
                 box->placePiece(black[k]);
                 black[k]->setIsPlaced(true);
                 game->alivePiece.append(black[k++]);
             }
-            if(i > 5)
+            qDebug()<<"dans reset damier classe Damier 4";
+            if(r > 4)
             {
+                qDebug()<<"dans reset damier classe Damier 3";
                 box->placePiece(white[h]);
                 white[h]->setIsPlaced(true);
                 game->alivePiece.append(white[h++]);
             }
         }
-    }
+    }*/
+    //int r, c;
+    //int h=0, k=0;
+
+    /*int taille = game->nbCases;
+        for(r=0; r<taille; r++)
+        {
+            qDebug()<<"dans reset damier classe Damier A";
+            for(c=0; c<taille; c++)
+            {
+                qDebug()<<"dans reset damier classe Damier B";
+                if(game->tab_damier[r*taille+c]->getHasPion())
+                {
+                    qDebug()<<"dans reset damier classe Damier C";
+                    game->removeFromScene(game->tab_damier[r*taille+c]->currentPiece);
+                    game->tab_damier[r*taille+c]->setHasPion(false);
+                    game->tab_damier[r*taille+c]->setPionCouleur(Couleur::None);
+                    game->tab_damier[r*taille+c]->currentPiece = nullptr;
+                }
+            }
+        }
+       */
 }

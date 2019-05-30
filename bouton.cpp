@@ -1,6 +1,7 @@
-#include "bouton.hpp"
+#include "bouton.h"
 #include <QGraphicsTextItem>
 #include <QBrush>
+#include <QPushButton>
 
 Bouton::Bouton(QString name, QGraphicsItem *parent)
     :QGraphicsRectItem(parent)
@@ -22,6 +23,11 @@ Bouton::Bouton(QString name, QGraphicsItem *parent)
     //Allow responding to hover
     setAcceptHoverEvents(true);
 }
+
+/*QString Bouton::getText()
+{
+    return text;
+}*/
 
 void Bouton::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {

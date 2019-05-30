@@ -1,4 +1,4 @@
-#include "listecoups.hpp"
+#include "listecoups.h"
 
 listeCoups::listeCoups()
 {

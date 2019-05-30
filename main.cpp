@@ -1,14 +1,15 @@
-
 #include <QApplication>
-#include "game.hpp"
+#include "game.h"
 
 Game *game;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
     game = new Game();
-    game->show();
+    game->showMaximized(); //showMaximized Shows the widget maximized.
     game->displayMainMenu();
     return a.exec();
 }
+
+
+

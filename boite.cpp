@@ -1,12 +1,13 @@
-#include "boite.hpp"
+#include "boite.h"
 #include <QDebug>
-#include "game.hpp"
-#include <qpropertyanimation.h>
+#include "game.h"
+//#include <qpropertyanimation.h>
+#include <QPropertyAnimation>
 
 //extern Game *game;
 Boite::Boite(Game *g, QGraphicsItem *parent):QGraphicsRectItem(parent),game(g)
 {
-    //making the Square CHess Box
+    //making the Square checker Box
     setRect(0,0,game->largeurBoite,game->largeurBoite);
     brush.setStyle(Qt::SolidPattern);
     setZValue(-1);
@@ -49,14 +50,6 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
             b=movLoc_b.size();
             c=movLoc_c.size();
             d=movLoc_d.size();
-
-
-            QPropertyAnimation animation(this->currentPiece, "geometry");
-            animation.setDuration(10000);
-            animation.setStartValue(QRect(0, 0, 100, 30));
-            animation.setEndValue(QRect(250, 250, 100, 30));
-
-            animation.start();
 
             t1 = (a > b? a : b);
                 t2 = (c > d? c : d);
@@ -153,6 +146,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
         {
             this->currentPiece->mousePressEvent(event);
         }
+
 }
 
 void Boite::setCouleur(QColor color)
@@ -161,7 +155,6 @@ void Boite::setCouleur(QColor color)
     setBrush(color);
 }
 
-
 void Boite::placePiece(Pion *piece)
 {
 
@@ -169,15 +162,12 @@ void Boite::placePiece(Pion *piece)
     piece->setCurrentBoite(this);
     setHasPion(true,piece);
     currentPiece = piece;
-
-
 }
 
 void Boite::resetOriginalColor()
 {
     setCouleur(couleurDorigine);
 }
-
 
 void Boite::setOriginalColor(QColor value)
 {
@@ -203,7 +193,7 @@ void Boite::checkForCheck()
 {
     int c = 0;
     QList <Pion *> pList = game->alivePiece;
-    for(size_t i = 0,n=pList.size(); i < n; i++ ) {
+    for(size_t i = 0, n=pList.size(); i < n; i++ ) {
 
       /*  King * p = dynamic_cast<King *> (pList[i]);
         if(p){
@@ -230,10 +220,9 @@ void Boite::checkForCheck()
 
             }
         }*/
-
-
     }
-    if(!c){
+    if(!c)
+    {
         game->check->setVisible(false);
         for(size_t i = 0,n=pList.size(); i < n; i++ )
             pList[i]->getCurrentBoite()->resetOriginalColor();
