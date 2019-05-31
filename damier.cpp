@@ -35,68 +35,64 @@ void Damier::drawBoites(int x,int y)
 
 void Damier::addPion()
 {
-    int r, c;
+   int r, c, k=0, h=0;
 
-    if(param==8)
-    {
-        for(r=0; r<3; r++)
+        if(param==8)
         {
-            if(r==1) c=0;
-            else c=1;
-            for(; c<param; c+=2)
+            for(r=0; r<3; r++)
             {
-                Boite *box = game->tab_damier[r*param+c];
-                static int k;
-                box->placePiece(black[k]);
-                game->alivePiece.append(black[k]);
-                game->addToScene(black[k++]);
+                if(r==1) c=0;
+                else c=1;
+                for(; c<param; c+=2)
+                {
+                    Boite *box = game->tab_damier[r*param+c];
+                    box->placePiece(black[k]);
+                    game->alivePiece.append(black[k]);
+                    game->addToScene(black[k++]);
+                }
+            }
+            for(r=5; r<param; r++)
+            {
+                if(r==6) c=1;
+                else c=0;
+                for(; c<param; c+=2)
+                {
+                    Boite *box = game->tab_damier[r*param+c];
+                    box->placePiece(white[h]);
+                    game->alivePiece.append(white[h]);
+                    game->addToScene(white[h++]);
+                }
             }
         }
-        for(r=5; r<param; r++)
-        {
-            if(r==6) c=1;
-            else c=0;
-            for(; c<param; c+=2)
-            {
-                Boite *box = game->tab_damier[r*param+c];
-                static int h;
-                box->placePiece(white[h]);
-                game->alivePiece.append(white[h]);
-                game->addToScene(white[h++]);
-            }
-        }
-    }
 
-    if(param==10)
-    {
-        //qDebug()<<"taille de la liste black"<<black.size();
-        for(r=0; r<4; r++)
+        if(param==10)
         {
-            if(r==1 || r==3) c=0;
-            else c=1;
-            for(; c<param; c+=2)
+            //qDebug()<<"taille de la liste black"<<black.size();
+            for(r=0; r<4; r++)
             {
-                Boite *box = game->tab_damier[r*param+c];
-                static int k;
-                box->placePiece(black[k]);
-                game->alivePiece.append(black[k]);
-                game->addToScene(black[k++]);
+                if(r==1 || r==3) c=0;
+                else c=1;
+                for(; c<param; c+=2)
+                {
+                    Boite *box = game->tab_damier[r*param+c];
+                    box->placePiece(black[k]);
+                    game->alivePiece.append(black[k]);
+                    game->addToScene(black[k++]);
+                }
+            }
+            for(r=6; r<param; r++)
+            {
+                if(r==7 || r==9) c=0;
+                else c=1;
+                for(; c<param; c+=2)
+                {
+                    Boite *box = game->tab_damier[r*param+c];
+                    box->placePiece(white[h]);
+                    game->alivePiece.append(white[h]);
+                    game->addToScene(white[h++]);
+                }
             }
         }
-        for(r=6; r<param; r++)
-        {
-            if(r==7 || r==9) c=0;
-            else c=1;
-            for(; c<param; c+=2)
-            {
-                Boite *box = game->tab_damier[r*param+c];
-                static int h;
-                box->placePiece(white[h]);
-                game->alivePiece.append(white[h]);
-                game->addToScene(white[h++]);
-            }
-        }
-    }
 }
 
 void Damier::setUpWhite()
