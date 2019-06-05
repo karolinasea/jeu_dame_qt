@@ -8,9 +8,9 @@
 Pion::Pion (Couleur team, QGraphicsItem *parent) : QGraphicsPixmapItem(parent), side(team), isPlaced(true), isDame(false)
 {
     if(side == Couleur::Blanc)
-        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\build-CHECKERS2-Desktop_Qt_5_12_2_MinGW_32_bit2-Debug\\debug\\pawn1.png"));
+        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\CHECKERS2\\pawn1.png"));
     else
-        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\build-CHECKERS2-Desktop_Qt_5_12_2_MinGW_32_bit2-Debug\\debug\\pawn.png"));
+        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\CHECKERS2\\pawn.png"));
 
 }
 
@@ -18,23 +18,25 @@ void Pion::conversionDame ()
 {
     if(side == Couleur::Blanc)
     {
-        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\build-CHECKERS2-Desktop_Qt_5_12_2_MinGW_32_bit2-Debug\\debug\\dame_blanche.png"));
+        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\CHECKERS2\\dame_blanche.png"));
     }
     else if(side == Couleur::Noir)
     {
-        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\build-CHECKERS2-Desktop_Qt_5_12_2_MinGW_32_bit2-Debug\\debug\\dame_noire.png"));
+        setPixmap(QPixmap("C:\\Users\\carole\\Documents\\CHECKERS2\\dame_noire.png"));
     }
 }
 
 void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //selecting pieces
-        if(currentBox->game->pieceToMove == nullptr)
+        if(currentBox->game->pieceToMove != nullptr)
         {
+            currentBox->game->pieceToMove->getCurrentBoite()->resetOriginalColor();
+            currentBox->game->pieceToMove->decolor();
             currentBox->game->pieceToMove = this;
             if ((currentBox->game->getTurn()==Couleur::Noir && currentBox->game->pieceToMove->getSide()==Couleur::Blanc) || (currentBox->game->getTurn()==Couleur::Blanc && currentBox->game->pieceToMove->getSide()==Couleur::Noir))
             {
-                qDebug()<<"wrong color compare to the turn 2";
+                qDebug()<<"wrong color compare to the turn";
                 currentBox->game->pieceToMove->getCurrentBoite()->resetOriginalColor();
                 currentBox->game->pieceToMove->decolor();
                 currentBox->game->pieceToMove = nullptr;
@@ -47,15 +49,12 @@ void Pion::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 currentBox->game->pieceToMove->moves();
             }
         }
-
-        if(currentBox->game->pieceToMove != nullptr)
+        if(currentBox->game->pieceToMove == nullptr)
         {
-            currentBox->game->pieceToMove->getCurrentBoite()->resetOriginalColor();
-            currentBox->game->pieceToMove->decolor();
             currentBox->game->pieceToMove = this;
             if ((currentBox->game->getTurn()==Couleur::Noir && currentBox->game->pieceToMove->getSide()==Couleur::Blanc) || (currentBox->game->getTurn()==Couleur::Blanc && currentBox->game->pieceToMove->getSide()==Couleur::Noir))
             {
-                qDebug()<<"wrong color compare to the turn";
+                qDebug()<<"wrong color compare to the turn 2";
                 currentBox->game->pieceToMove->getCurrentBoite()->resetOriginalColor();
                 currentBox->game->pieceToMove->decolor();
                 currentBox->game->pieceToMove = nullptr;
@@ -90,7 +89,7 @@ void Pion::moves()
     /*stops the fonction to go to remplirListes and then remplirListes colors the boites/cases
     sur lesquelles le pion selectionne peut aller*/
 
-    if(this->getSide() == Couleur::Blanc)
+   /*if(this->getSide() == Couleur::Blanc)
     {
         if(col > 1 && row > 1 && currentBox->game->tab_damier[(row-1)*taille+col-1]->getPionCouleur() == Couleur::Noir)
         {
@@ -227,7 +226,7 @@ void Pion::moves()
             }
         }
 
-    }
+    }*/
 
 }
 

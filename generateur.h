@@ -13,10 +13,11 @@ class generateur
 public:
     generateur(char taille, char row, char col, QVector<Boite *> position, Couleur side, bool dame);
     void remplirListes();
-    void remplirListesDames();
     char chemPlusCourt(char i, char row, char col, char nope);
     void boxSetting(Boite *box);
     void decolor();
+    char chemPlusCourtDame(char i, char row, char col, char nope);
+    void remplirListesDames();
 
     Couleur side;
     QVector<Boite *> liste_avant_g;
@@ -27,6 +28,7 @@ public:
     QVector<Boite *> liste_avant_d_enn;
     QVector<Boite *> liste_arr_g_enn;
     QVector<Boite *> liste_arr_d_enn;
+
     char taille;
     char row;
     char col;
@@ -34,6 +36,16 @@ public:
     QVector<Boite *> position;
     QVector<Boite *> liste_enn;
     QVector<Boite *> liste;
+    QVector<Boite *> liste_1;
+    QVector<Boite *> liste_enn1;
+    QVector<Boite *> liste_2;
+    QVector<Boite *> liste_enn2;
+    QVector<Boite *> liste_3;
+    QVector<Boite *> liste_enn3;
+    QVector<Boite *> liste_4;
+    QVector<Boite *> liste_enn4;
+    QVector<Boite *> chem_1;
+    QVector<Boite *> chem_enn1;
 };
 
 #endif // GENERATEUR_HPP

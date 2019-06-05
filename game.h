@@ -43,20 +43,20 @@ public:
     //Boite *collection[144];
     QVector<Boite *> tab_damier; //vecteur c mieux, au moins 64 cases réservées (damier 8*8) dans le constructeur
 
-    QGraphicsTextItem *check;
-
+    //QGraphicsTextItem *check;
+    QGraphicsTextItem * gameIsOver;
     QList <Pion *> alivePiece;
 
     void displayMainMenu();
 
-    void gameOver();
-    void removeAll();
+    /*void gameOver();
+    void removeAll();*/
 
 public slots:
     void displaySizeMenu();
     void start(int param);
     void resetDamier();
-    void restart(QGraphicsScene **object);
+
 
 private:
     QGraphicsScene *gameScene;
@@ -76,6 +76,7 @@ private:
 
     QGraphicsTextItem * affTour;
     QGraphicsTextItem * title;
+
 
 };
 

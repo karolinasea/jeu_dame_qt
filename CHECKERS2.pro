@@ -51,6 +51,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     dame_blanche.png \
+    dame_noir.png \
     dame_noire.png \
     pawn.png \
     pawn1.png

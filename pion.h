@@ -35,12 +35,14 @@ public:
     void decolor();
 
     bool boxSetting(Boite *box);
-generateur *gene;
+    generateur *gene;
+    bool isDame;
+
  private:
     Boite *currentBox;
     Couleur side;
     bool isPlaced;
-    bool isDame;
+
     //QList <Boite *> boitePionEnnemi;
     //QList <Boite *> location;
 };

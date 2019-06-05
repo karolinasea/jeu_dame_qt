@@ -22,19 +22,22 @@ Boite::~Boite()
 
 void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    //  qDebug() << getpionColor();
             //Deselecting  pion
-            if(currentPiece == game->pieceToMove && currentPiece){
-
+            if(currentPiece == game->pieceToMove && currentPiece)
+            {
                 currentPiece->mousePressEvent(event);
                 return;
             }
 
             //si un pion est deja selectionné, il a surement cliqué sur une case d'arrivée
-            if(game->pieceToMove){
+            if(game->pieceToMove)
+            {
                 //if same team
                 if(this->getPionCouleur() == game->pieceToMove->getSide())
+                {
                     return;
+                }
+
                 //pièce à manger on vérifie
                 QVector <Boite *> movLoc_a;
                 QVector <Boite *> movLoc_b;
@@ -44,44 +47,47 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 movLoc_b.append(game->pieceToMove->gene->liste_avant_d);
                 movLoc_c.append(game->pieceToMove->gene->liste_arr_d);
                 movLoc_d.append(game->pieceToMove->gene->liste_arr_g);
-                char a,b,c,d,t1,t2,maxi,i=0,check=0;
+                char a,b,c,d,t1 =0, t2 = 0, maxi, i=0, check=0;
                 a=movLoc_a.size();
                 b=movLoc_b.size();
                 c=movLoc_c.size();
                 d=movLoc_d.size();
 
-
-                /*QPropertyAnimation animation(this->currentPiece, "geometry");
-                animation.setDuration(10000);
-                animation.setStartValue(QRect(0, 0, 100, 30));
-                animation.setEndValue(QRect(250, 250, 100, 30));
-                animation.start();*/
-
                 t1 = (a > b? a : b);
                     t2 = (c > d? c : d);
                     maxi = (t1 > t2? t1 : t2);
-
+                    //qDebug()<<"t1= "<<t1<<" t2= "<<" maxi= "<<maxi;
                     if (!movLoc_a.isEmpty()&&maxi==0){
+                        qDebug()<<"q1011";
                         if (this==movLoc_a.first()&&game->pieceToMove->gene->liste_avant_g_enn.isEmpty())
+                        {
+                            qDebug()<<"q1012";
                             check=1;
+                        }
                       }
                     if (!movLoc_b.isEmpty()&&maxi==0){
+                        qDebug()<<"q1013";
                         if (this==movLoc_b.first()&&game->pieceToMove->gene->liste_avant_d_enn.isEmpty())
+                        {
+                            qDebug()<<"q1014";
                             check=1;
+                        }
                        }
                     if (maxi==a){
                         if (this==movLoc_a.last()){
+                            qDebug()<<"maxi = a";
                             for(int n = game->pieceToMove->gene->liste_avant_g_enn.size(); i < n;i++) {
                             game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece->setIsPlaced(false);
                             game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece->setCurrentBoite(nullptr);
                             game->placeInDeadPlace(game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece);
-                           game->pieceToMove->gene->liste_avant_g_enn[i]->setHasPion(false);
+                            game->pieceToMove->gene->liste_avant_g_enn[i]->setHasPion(false);
                             game->pieceToMove->gene->liste_avant_g_enn[i]->currentPiece = nullptr;
                             }check=1;
                         }
                     }
                     if (maxi==b){
                         if (this==movLoc_b.last()){
+                            qDebug()<<"maxi=b";
                             for(int n = game->pieceToMove->gene->liste_avant_d_enn.size(); i < n;i++) {
                             game->pieceToMove->gene->liste_avant_d_enn[i]->currentPiece->setIsPlaced(false);
                             game->pieceToMove->gene->liste_avant_d_enn[i]->currentPiece->setCurrentBoite(nullptr);
@@ -92,6 +98,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                         }
                     }
                     if (maxi==c){
+                            qDebug()<<"maxi=c";
                         if (this==movLoc_c.last()){
                             for(int n = game->pieceToMove->gene->liste_arr_d_enn.size(); i < n;i++) {
                             game->pieceToMove->gene->liste_arr_d_enn[i]->currentPiece->setIsPlaced(false);
@@ -103,6 +110,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                         }
                     }
                     if (maxi==d){
+                        qDebug()<<"maxi=d";
                         if (this==movLoc_d.last()){
                             for(int n = game->pieceToMove->gene->liste_arr_g_enn.size(); i < n;i++) {
                             game->pieceToMove->gene->liste_arr_g_enn[i]->currentPiece->setIsPlaced(false);
@@ -131,9 +139,6 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 //change the color back to normal
                  game->pieceToMove->decolor();
 
-                 //this is to eat or consume the enemy present in the movable region
-
-
                 //changing the new stat and resetting the previous left region
                 game->pieceToMove->getCurrentBoite()->setHasPion(false);
                 game->pieceToMove->getCurrentBoite()->currentPiece = nullptr;
@@ -144,16 +149,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                 game->pieceToMove = nullptr;
                 //changing turn
                 game->changeTurn();
-                /*if(game->getTurn()==Couleur::Blanc)
-                {
-                    game->setTurn(Couleur::Noir);
-                }
-                else
-                {
-                    game->setTurn(Couleur::Blanc);
-                }*/
-
-            }
+             }
             //Selecting couterpart of the pion
             else if(this->getHasPion())
             {
@@ -170,7 +166,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                   if(getHasPion() && getPionCouleur()==Couleur::Blanc && !currentPiece->isDame)
                   {
                         currentPiece->conversionDame();
-                        currentPiece->isDame==true;
+                        //currentPiece->isDame==true;
                   }
              }
          }
@@ -181,7 +177,7 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                    if(getHasPion() && getPionCouleur()==Couleur::Noir && !currentPiece->isDame)
                    {
                         currentPiece->conversionDame();
-                        currentPiece->isDame==true;
+                        //currentPiece->isDame==true;
                     }
                }
           }
@@ -207,57 +203,57 @@ void Boite::mousePressEvent(QGraphicsSceneMouseEvent *event)
                         countN++;
                     }
                 }
-                qDebug()<<"countN "<<countN<<"countB "<<countB<<"countDameB "<<countDameB<<"countDameN "<<countDameN;
+                //qDebug()<<"countN "<<countN<<"countB "<<countB<<"countDameB "<<countDameB<<"countDameN "<<countDameN;
                 if(countDameB==0 && countDameN==0 && countN>0 && countB==0)
                 {
-                    qDebug()<<"les noirs gangnent";
+                    qDebug()<<"les noirs gagnent";
                     game->resetDamier();
                 }
                 if(countDameB==0 && countDameN==0 && countB>0 && countN==0)
                 {
-                    qDebug()<<"les blancs gangnent";
+                    qDebug()<<"les blancs gagnent";
                     game->resetDamier();
                 }
                 if(countDameB>0 && countDameN==0 && countB>=0 && countN==0)
                 {
-                    qDebug()<<"les blancs gangnent";
+                    qDebug()<<"les blancs gagnent";
                     game->resetDamier();
                 }
                 if(countDameB>=0 && countDameN==0 && countB>0 && countN==0)
                 {
-                    qDebug()<<"les blancs gangnent";
+                    qDebug()<<"les blancs gagnent";
                     game->resetDamier();
                 }
                 if(countDameN>0 && countDameB==0 && countN>=0 && countB==0)
                 {
-                    qDebug()<<"les noirs gangnent";
+                    qDebug()<<"les noirs gagnent";
                     game->resetDamier();
                 }
                 if(countDameN>=0 && countDameB==0 && countN>0 && countB==0)
                 {
-                    qDebug()<<"les noirs gangnent";
+                    qDebug()<<"les noirs gagnent";
                     game->resetDamier();
                     game->gameIsOver->setVisible(true);
                 }
                 if(countDameB>0 && countB==0 && countDameN==0 && countN==0)
                 {
-                    qDebug()<<"les blancs gangnent";
+                    qDebug()<<"les blancs gagnent";
                     game->resetDamier();
 
                 }
                 if(countDameN>0 && countN==0 && countDameB==0 && countB==0)
                 {
-                    qDebug()<<"les noirs gangnent";
+                    qDebug()<<"les noirs gagnent";
                     game->resetDamier();
                 }
                 if(countDameB>0 && countB>0 && countDameN==0 && countN==0)
                 {
-                    qDebug()<<"les blancs gangnent";
+                    qDebug()<<"les blancs gagnent";
                     game->resetDamier();
                 }
                 if(countDameN>0 && countN>0 && countDameB==0 && countB==0)
                 {
-                    qDebug()<<"les noirs gangnent";
+                    qDebug()<<"les noirs gagnent";
                     game->resetDamier();
                 }
 

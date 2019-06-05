@@ -217,7 +217,6 @@ void generateur::remplirListes()
     liste_avant_d.clear();
     liste_arr_g.clear();
     liste_arr_d.clear();
-
     liste_enn.clear();
     liste.clear();
     //boitePionEnnemi.clear();

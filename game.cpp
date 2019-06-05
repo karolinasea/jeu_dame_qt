@@ -3,6 +3,7 @@
 #include "pion.h"
 #include <QPixmap>
 #include <QDebug>
+#include <QApplication>
 
 Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
 {
@@ -16,7 +17,7 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
     to manage item indexing.*/
 
     //Making the view
-    setFixedSize(1400, 900);
+    setFixedSize(1400, 900);//
     //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setScene(gameScene);
@@ -33,7 +34,7 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
     affTour->setZValue(1);
     affTour->setDefaultTextColor(Qt::white);
     affTour->setFont(QFont("", 20));
-    affTour->setPlainText("Tour : Blanc");
+    affTour->setPlainText("Tour : BLANC");
 
     //display title in the main menu and the size menu
     title = new QGraphicsTextItem();
@@ -44,78 +45,24 @@ Game::Game(QWidget *parent ):QGraphicsView(parent)//, tab_damier(144)
     title->setFont(QFont("", 50));
     title->setPlainText("Jeu de Dames");
 
-    //display Check
-    /*The QGraphicsTextItem class provides a text item that you can add to a QGraphicsScene to display formatted text.*/
-    check = new QGraphicsTextItem();
-    check->setPos(width()/2+20,10);
-    /*Sets the Z-value of the item to z. The Z value decides the stacking order of sibling (neighboring) items.
-     A sibling item of high Z value will always be drawn on top of another sibling item with a lower Z value.*/
-    check->setZValue(4);
-    check->setDefaultTextColor(Qt::red);
-    check->setFont(QFont("", 20));
-    check->setPlainText("CHECK!");
-    check->setVisible(false);
-    setTurn(Couleur::Blanc);
-
-    /*retour = new QGraphicsTextItem();
-    retour->setPos(345, 10);
-    retour->setPlainText("Retour");
-    retour->setDefaultTextColor(Qt::white);*/
-
-    retour = new Bouton("Reinitialiser");
+    retour = new Bouton("Nouveau Jeu");
     retour->setPos(300, 0);
-    //retour->setRect(0, 0, 150, 30);
 
     QObject::connect(retour, SIGNAL(clicked()) , this, SLOT(resetDamier()));
 
-    //QObject::connect(retour, SIGNAL(clicked()), gameScene, SLOT(clear()), Qt::QueuedConnection);
-
-
+    //display display message when game is over
+   /* gameIsOver = new QGraphicsTextItem();
+    gameIsOver->setPos(width()/2-100, 100);
+    //gameIsOver->setZValue(1);
+    gameIsOver->setVisible(true);
+    gameIsOver->setDefaultTextColor(Qt::darkRed);
+    gameIsOver->setFont(QFont("", 100));
+    gameIsOver->setPlainText("GAME OVER");*/
 }
 
 void Game::resetDamier()
 {
-    qDebug()<<"resetDamier";
-
-    //gameScene->clear();
-    //gameScene->clear();
-    //restart(&gameScene);
-    alivePiece.clear();
-    blancMort.clear();
-    noirMort.clear();
-    leDamier->reset();
-
-    removeAll();
-    displayMainMenu();
-
-    //leDamier->reset();
-
-   /* int r, c;
-    for(r=0; r<nbCases; r++)
-    {
-        for(c=0; c<nbCases; c++)
-        {
-            if(tab_damier[r*nbCases+c])
-            {
-                gameScene->removeItem(tab_damier[r*nbCases+c]);
-            }
-        }
-    }
-    alivePiece.clear();
-    removeAll();
-    displayMainMenu();
-
-
-    /*removeAll();
-    */
-
-}
-
-void Game::restart(QGraphicsScene **object)
-{
-    qDebug()<<"restart";
-    //remove(gameScene);
-    //QGraphicsScene gameScene = new QGraphicsScene();
+    QApplication::exit(2000);
 }
 
 void Game::displayDeadWhite()
@@ -123,13 +70,15 @@ void Game::displayDeadWhite()
     int SHIFT=70;
     int j = 0;
     int k = 0;                 // Qlist.size quel type ça renvoie
-    for(unsigned int i = 0,n = blancMort.size(); i<n; i++) {
+    for(unsigned int i = 0,n = blancMort.size(); i<n; i++)
+    {
             if(j == 3){
                 k++;
                 j = 0;
             }
             blancMort[i]->setPos(40+SHIFT*j++,100+SHIFT*2*k);
     }
+
 }
 
 void Game::displayDeadBlack()
@@ -137,7 +86,8 @@ void Game::displayDeadBlack()
     int SHIFT = 70;
     int j = 0;
     int k = 0;
-    for(size_t i = 0,n = noirMort.size(); i<n; i++) {
+    for(size_t i = 0,n = noirMort.size(); i<n; i++)
+    {
         if(j == 3){
             k++;
             j = 0;
@@ -150,22 +100,10 @@ void Game::placeInDeadPlace(Pion *piece)
 {
     if(piece->getSide() == Couleur::Blanc) {
         blancMort.append(piece);
-        /*King *g = dynamic_cast <King *>(piece);
-        if(g){
-
-            check->setPlainText("Black Won");
-            gameOver();
-        }*/
         displayDeadWhite();
     }
     else{
         noirMort.append(piece);
-        /*King *g = dynamic_cast <King *>(piece);
-        if(g){
-
-            check->setPlainText("White Won");
-            gameOver();
-        }*/
         displayDeadBlack();
     }
     alivePiece.removeAll(piece);
@@ -199,13 +137,15 @@ void Game::setTurn(Couleur value)
 
 void Game::changeTurn()
 {
-    if(getTurn() == Couleur::Blanc){
+    if(getTurn() == Couleur::Blanc)
+    {
         setTurn(Couleur::Noir);
         affTour->setPlainText("Tour : NOIR");
     }
-    else {
+    else
+    {
         setTurn(Couleur::Blanc);
-     affTour->setPlainText("Tour : BLANC");
+        affTour->setPlainText("Tour : BLANC");
     }
 }
 
@@ -240,6 +180,8 @@ void Game::start(int param)
 
     addToScene(affTour);
 
+    tour = Couleur::Blanc;
+
     QGraphicsTextItem* whitePiece = new QGraphicsTextItem();
     whitePiece->setPos(70,10);
     whitePiece->setZValue(1);
@@ -255,12 +197,7 @@ void Game::start(int param)
     blackPiece->setFont(QFont("",15));
     blackPiece->setPlainText("BLACK PIECE");
     addToScene(blackPiece);
-    addToScene(check);
     leDamier->addPion();
-
-    //run generateur de coup here at first or just let select the avt dt avt gauche
-    //gene = new generateur();
-    //gene.remplirListes(nbCases);
 }
 
 void Game::drawDeadHolder(int x, int y,QColor color)
@@ -326,17 +263,18 @@ void Game::displayMainMenu()
     addToScene(playComputerbouton);*/
 }
 
-void Game::gameOver()
+/*void Game::gameOver()
 {
-    //removeAll();
+    qDebug()<<"gameover";
+    removeAll();
     setTurn(Couleur::Blanc);
     alivePiece.clear();
     leDamier->reset();
-}
+}*/
 
 
 // pas utilisé
-void Game::removeAll()
+/*void Game::removeAll()
 {
     QList<QGraphicsItem*> itemsList = gameScene->items();
     for(size_t i = 0, n = itemsList.size();i<n;i++)
@@ -347,5 +285,5 @@ void Game::removeAll()
     alivePiece.clear();
     //tab_damier.clear();
     //leDamier->reset();
-}
+}*/
 
